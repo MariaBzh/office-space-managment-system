@@ -11,4 +11,4 @@ pluginManagement {
 }
 
 
-include("osmp-api-v1")
+include("osms-api-v1")
