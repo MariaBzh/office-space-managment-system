@@ -1,12 +1,14 @@
+rootProject.name = "office-space-managment-system"
+
 pluginManagement {
-    repositories {
-        mavenCentral()
-        gradlePluginPortal()
+    val kotlinVersion: String by settings
+    val kotestVersion: String by settings
+
+    plugins {
+        kotlin("jvm") version kotlinVersion
+        id("io.kotest.multiplatform") version kotestVersion apply false
     }
 }
 
-plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version "0.5.0"
-}
 
-rootProject.name = "office-space-managment-system"
+include("osmp-api-v1")
