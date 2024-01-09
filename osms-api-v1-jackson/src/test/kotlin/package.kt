@@ -1,0 +1,1 @@
+package ru.otus.osms.api.v1.jackson.test
