@@ -229,7 +229,7 @@ class MapperTest {
 
     @Test
     fun toTransportFailed() {
-        val request = readWithErrorContext.toTransportBooking() as BookingCreateResponse
+        val request = readWithErrorContext.toTransportBooking() as BookingReadResponse
 
         assertEquals(request.requestUid, readWithErrorContext.requestUid.asString())
         assertEquals(ResponseResult.ERROR, request.result)
