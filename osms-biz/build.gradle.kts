@@ -2,40 +2,42 @@ plugins {
     kotlin("multiplatform")
 }
 
-group = rootProject.group
-version = rootProject.version
-
 kotlin {
     jvm {}
-    macosX64 {}
     linuxX64 {}
+    macosX64 {}
     macosArm64 {}
 
     sourceSets {
-        val commonMain by getting {
+        val coroutinesVersion: String by project
+
+        all { languageSettings.optIn("kotlin.RequiresOptIn") }
+
+        commonMain {
             dependencies {
                 implementation(kotlin("stdlib-common"))
 
-                implementation(project(":osms-api-v1-kmp"))
                 implementation(project(":osms-common"))
+                implementation(project(":osms-stubs"))
             }
         }
-        val commonTest by getting {
+        commonTest {
             dependencies {
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
+
+                api("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion")
             }
         }
-        val jvmMain by getting {
+        jvmMain {
             dependencies {
-                implementation(kotlin("stdlib"))
+                implementation(kotlin("stdlib-jdk8"))
             }
         }
-        val jvmTest by getting {
+        jvmTest {
             dependencies {
                 implementation(kotlin("test-junit"))
             }
         }
-
     }
 }

@@ -1,5 +1,6 @@
-package ru.otus.osms.api.v1
+package ru.otus.osms.api.v1.jackson
 
+import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.MapperFeature
 import com.fasterxml.jackson.databind.json.JsonMapper
 import ru.otus.osms.api.v1.models.IRequest
@@ -7,6 +8,10 @@ import ru.otus.osms.api.v1.models.IResponse
 
 val apiV1Mapper: JsonMapper = JsonMapper.builder().run {
     enable(MapperFeature.USE_BASE_TYPE_AS_DEFAULT_IMPL)
+    enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS)
+
+    configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+
     build()
 }
 

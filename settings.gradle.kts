@@ -5,6 +5,7 @@ pluginManagement {
     val kotestVersion: String by settings
     val openapiVersion: String by settings
     val cwpGeneratorVersioin: String by settings
+    val ktorVersion: String by settings
 
     plugins {
         kotlin("jvm") version kotlinVersion
@@ -14,6 +15,7 @@ pluginManagement {
         id("io.kotest.multiplatform") version kotestVersion apply false
         id("org.openapi.generator") version openapiVersion apply false
         id("com.crowdproj.generator") version cwpGeneratorVersioin apply false
+        id("io.ktor.plugin") version ktorVersion apply false
     }
 }
 
@@ -23,3 +25,6 @@ include("osms-api-v1-kmp")
 include("osms-common")
 include("osms-mappers-jackson-v1")
 include("osms-mappers-kmp-v1")
+include("osms-stubs")
+include("osms-biz")
+include("osms-app-ktor")

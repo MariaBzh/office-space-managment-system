@@ -1,8 +1,8 @@
-package ru.otus.osms.api.v1.test
+package ru.otus.osms.api.v1.jackson.test
 
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
-import ru.otus.osms.api.v1.apiV1Mapper
+import ru.otus.osms.api.v1.jackson.apiV1Mapper
 import ru.otus.osms.api.v1.models.*
 import java.util.*
 import kotlin.test.assertContains
