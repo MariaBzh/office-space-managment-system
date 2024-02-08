@@ -1,3 +1,5 @@
+package ru.otus.osms.biz
+
 import ru.otus.osms.common.OsmsContext
 import ru.otus.osms.common.helpers.addError
 import ru.otus.osms.common.models.OsmsCommand

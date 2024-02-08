@@ -9,7 +9,6 @@ kotlin {
     jvm {}
     macosX64 {}
     linuxX64 {}
-    macosArm64 { }
 
     sourceSets {
         val datetimeVersion: String by project
