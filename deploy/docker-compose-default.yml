@@ -7,12 +7,14 @@ version: '3'
 services:
 
   app:
-    build: .
+    image: nginx:latest
     ports:
-      - "8080:8080"
+      - "8080:80"
     depends_on:
       - fluent-bit
-    # volumes:
+    volumes:
+      - ./volumes/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./volumes/nginx/nginx.conf:/etc/nginx/nginx.conf
     logging:
       driver: "fluentd"
       options:

@@ -41,7 +41,7 @@ kotlin {
     }
     linuxX64 {}
     macosX64 {}
-    macosArm64 {}
+
 
     targets.withType<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget> {
         binaries {
