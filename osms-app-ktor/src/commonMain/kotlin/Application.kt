@@ -7,7 +7,7 @@ import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.plugins.cors.routing.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import ru.otus.osms.api.v1.apiV1Mapper
+import ru.otus.osms.api.v1.kpm.apiV1Mapper
 import ru.otus.osms.biz.OsmsBookingProcessor
 import ru.otus.osms.ktor.v1.v1Booking
 

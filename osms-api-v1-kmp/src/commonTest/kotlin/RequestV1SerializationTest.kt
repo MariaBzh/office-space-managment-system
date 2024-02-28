@@ -1,8 +1,8 @@
 package ru.otus.osms.api.v1.kmp.test
 
 import kotlinx.serialization.encodeToString
-import ru.otus.osms.api.v1.apiV1Mapper
-import ru.otus.osms.api.v1.models.*
+import ru.otus.osms.api.v1.kpm.apiV1Mapper
+import ru.otus.osms.api.v1.kpm.models.*
 import kotlin.test.Test
 import kotlin.test.assertContains
 import kotlin.test.assertEquals

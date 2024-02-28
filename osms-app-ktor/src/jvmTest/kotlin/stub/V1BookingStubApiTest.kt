@@ -231,7 +231,7 @@ class V1BookingStubApiTest {
                     name = "Московский"
                 ),
                 workspaceUid = "workspace-1",
-                startTime = "2024-01-01 13:00:00.0000",
+                startTime = "2025-01-01 10:00:00.0000",
                 endTime = "2024-01-01 11:00:00.0000",
             ),
             debug = BookingDebug(
@@ -245,7 +245,7 @@ class V1BookingStubApiTest {
             setBody(requestObj)
         }
 
-        val responseObj = response.body<BookingReadResponse>()
+        val responseObj = response.body<BookingCreateResponse>()
 
         assertEquals(200, response.status.value)
         assertNotNull(responseObj.errors)

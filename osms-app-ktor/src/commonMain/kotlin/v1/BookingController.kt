@@ -3,7 +3,7 @@ package ru.otus.osms.ktor.v1
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
-import ru.otus.osms.api.v1.models.*
+import ru.otus.osms.api.v1.kpm.models.*
 import ru.otus.osms.biz.OsmsBookingProcessor
 import ru.otus.osms.common.*
 import ru.otus.osms.mappers.kmp.v1.*

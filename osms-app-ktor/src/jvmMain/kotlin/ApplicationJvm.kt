@@ -12,7 +12,7 @@ import org.slf4j.event.Level
 import ru.otus.osms.api.v1.jackson.apiV1Mapper
 import ru.otus.osms.biz.OsmsBookingProcessor
 import ru.otus.osms.ktor.module
-import ru.otus.osms.ktor.v1.v1Booking
+import ru.otus.osms.ktor.jvm.v1.v1Booking
 
 fun main(args: Array<String>): Unit = io.ktor.server.cio.EngineMain.main(args)
 
