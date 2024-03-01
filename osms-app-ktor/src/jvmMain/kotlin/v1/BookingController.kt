@@ -1,49 +1,20 @@
 package ru.otus.osms.ktor.jvm.v1
 
 import io.ktor.server.application.*
-import io.ktor.server.request.*
-import io.ktor.server.response.*
 import ru.otus.osms.api.v1.models.*
-import ru.otus.osms.biz.OsmsBookingProcessor
-import ru.otus.osms.common.*
-import ru.otus.osms.mappers.jackson.v1.*
+import ru.otus.osms.ktor.OsmsAppSettings
 
-suspend fun ApplicationCall.createBooking(processor: OsmsBookingProcessor) {
-    val request = receive<BookingCreateRequest>()
-    val context = OsmsContext()
-    context.fromTransport(request)
-    processor.exec(context)
-    respond(context.toTransportCreate())
-}
+suspend fun ApplicationCall.createBooking(appSettings: OsmsAppSettings) =
+    processV1<BookingCreateRequest, BookingCreateResponse>(appSettings)
 
-suspend fun ApplicationCall.readBooking(processor: OsmsBookingProcessor) {
-    val request = receive<BookingReadRequest>()
-    val context = OsmsContext()
-    context.fromTransport(request)
-    processor.exec(context)
-    respond(context.toTransportRead())
-}
+suspend fun ApplicationCall.readBooking(appSettings: OsmsAppSettings) =
+    processV1<BookingReadRequest, BookingReadResponse>(appSettings)
 
-suspend fun ApplicationCall.updateBooking(processor: OsmsBookingProcessor) {
-    val request = receive<BookingUpdateRequest>()
-    val context = OsmsContext()
-    context.fromTransport(request)
-    processor.exec(context)
-    respond(context.toTransportUpdate())
-}
+suspend fun ApplicationCall.updateBooking(appSettings: OsmsAppSettings) =
+    processV1<BookingUpdateRequest, BookingUpdateResponse>(appSettings)
 
-suspend fun ApplicationCall.deleteBooking(processor: OsmsBookingProcessor) {
-    val request = receive<BookingDeleteRequest>()
-    val context = OsmsContext()
-    context.fromTransport(request)
-    processor.exec(context)
-    respond(context.toTransportDelete())
-}
+suspend fun ApplicationCall.deleteBooking(appSettings: OsmsAppSettings) =
+    processV1<BookingDeleteRequest, BookingDeleteResponse>(appSettings)
 
-suspend fun ApplicationCall.searchBooking(processor: OsmsBookingProcessor) {
-    val request = receive<BookingSearchRequest>()
-    val context = OsmsContext()
-    context.fromTransport(request)
-    processor.exec(context)
-    respond(context.toTransportSearch())
-}
+suspend fun ApplicationCall.searchBooking(appSettings: OsmsAppSettings) =
+    processV1<BookingSearchRequest, BookingSearchResponse>(appSettings)

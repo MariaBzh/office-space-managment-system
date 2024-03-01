@@ -64,6 +64,7 @@ kotlin {
                 implementation(ktorServer("content-negotiation"))
 
                 implementation(project(":osms-common"))
+                implementation(project(":osms-app-common"))
                 implementation(project(":osms-biz"))
 
                 implementation(project(":osms-api-v1-kmp"))

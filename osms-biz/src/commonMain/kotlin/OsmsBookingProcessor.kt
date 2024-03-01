@@ -3,6 +3,7 @@ package ru.otus.osms.biz
 import ru.otus.osms.common.OsmsContext
 import ru.otus.osms.common.helpers.addError
 import ru.otus.osms.common.models.OsmsCommand
+import ru.otus.osms.common.models.OsmsState
 import ru.otus.osms.common.models.OsmsWorkMode
 import ru.otus.osms.common.stubs.OsmsStub
 import ru.otus.osms.stubs.OsmsBookingStub
@@ -17,15 +18,25 @@ class OsmsBookingProcessor {
         when (ctx.stubCase) {
             OsmsStub.SUCCESS -> {
                 when (ctx.command) {
-                    OsmsCommand.CREATE -> { ctx.bookingResponse = OsmsBookingStub.get() }
-                    OsmsCommand.UPDATE -> { ctx.bookingResponse = OsmsBookingStub.get(
-                        ctx.bookingRequest.bookingUid.asString(),
-                        ctx.bookingRequest.startTime,
-                        ctx.bookingRequest.endTime,
-                    ) }
-                    OsmsCommand.SEARCH -> { ctx.bookingsResponse.addAll(OsmsBookingStub.prepareSearchList()) }
+                    OsmsCommand.CREATE -> {
+                        ctx.bookingResponse = OsmsBookingStub.get()
+                        ctx.state = OsmsState.RUNNING
+                    }
+                    OsmsCommand.UPDATE -> {
+                        ctx.bookingResponse = OsmsBookingStub.get(
+                            ctx.bookingRequest.bookingUid.asString(),
+                            ctx.bookingRequest.startTime,
+                            ctx.bookingRequest.endTime,
+                        )
+                        ctx.state = OsmsState.RUNNING
+                    }
+                    OsmsCommand.SEARCH -> {
+                        ctx.bookingsResponse.addAll(OsmsBookingStub.prepareSearchList())
+                        ctx.state = OsmsState.RUNNING
+                    }
                     else -> {
                         ctx.bookingResponse = OsmsBookingStub.get(ctx.bookingRequest.bookingUid.asString())
+                        ctx.state = OsmsState.RUNNING
                     }
                 }
             }
