@@ -19,7 +19,6 @@ pluginManagement {
     }
 }
 
-
 include("osms-api-v1-jackson")
 include("osms-api-v1-kmp")
 include("osms-common")
@@ -34,3 +33,4 @@ include("osms-logging-common")
 include("osms-logging-kermit")
 include("osms-api-log")
 include("osms-mappers-log")
+include("osms-cor")
