@@ -9,6 +9,8 @@ fun Application.initAppSettings(): OsmsAppSettings {
     return OsmsAppSettings(
         appUrls = environment.config.propertyOrNull("ktor.urls")?.getList() ?: emptyList(),
         processor = OsmsBookingProcessor(),
-        corSettings = OsmsCorSettings(),
+        corSettings = OsmsCorSettings(
+            loggerProvider = getLoggerProviderConf(),
+        ),
     )
 }

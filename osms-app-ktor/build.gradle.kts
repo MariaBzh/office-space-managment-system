@@ -72,6 +72,11 @@ kotlin {
 
                 implementation(project(":osms-stubs"))
 
+                implementation(project(":osms-api-log"))
+                implementation(project(":osms-mappers-log"))
+                implementation(project(":osms-logging-common"))
+                implementation(project(":osms-logging-kermit"))
+
                 implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:$serializationVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$serializationVersion")

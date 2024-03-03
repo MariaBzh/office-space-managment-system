@@ -1,28 +1,31 @@
-import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
-
 plugins {
     kotlin("multiplatform")
-    id("com.crowdproj.generator")
     kotlin("plugin.serialization")
 }
 
-crowdprojGenerate {
-    packageName.set("${project.group}.api.v1.kpm")
-    inputSpec.set("$rootDir/spec-openapi/specs-osms-v1.yaml")
-}
+group = rootProject.group
+version = rootProject.version
 
 kotlin {
-    jvm { withJava() }
-    linuxX64 { }
-    macosX64 { }
+    jvm {}
+    linuxX64 {}
+    macosX64 {}
 
     sourceSets {
+        val kermitLoggerVersion: String by project
+        val coroutinesVersion: String by project
+        val datetimeVersion: String by project
         val serializationVersion: String by project
+
         val commonMain by getting {
-            kotlin.srcDirs(layout.buildDirectory.dir("generate-resources/main/src/commonMain/kotlin"))
             dependencies {
                 implementation(kotlin("stdlib-common"))
 
+                implementation(project(":osms-logging-common"))
+
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
+                implementation("co.touchlab:kermit:$kermitLoggerVersion")
+                implementation("org.jetbrains.kotlinx:kotlinx-datetime:$datetimeVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:$serializationVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$serializationVersion")
             }
@@ -33,23 +36,16 @@ kotlin {
                 implementation(kotlin("test-annotations-common"))
             }
         }
+        val jvmMain by getting {
+            dependencies {
+                implementation(kotlin("stdlib-jdk8"))
+            }
+        }
         val jvmTest by getting {
             dependencies {
                 implementation(kotlin("test-junit"))
             }
         }
-    }
-}
 
-tasks {
-    val openApiGenerateTask: GenerateTask = getByName("openApiGenerate", GenerateTask::class) {
-        outputDir.set(layout.buildDirectory.file("generate-resources/main/src/commonMain/kotlin").get().toString())
-        mustRunAfter("compileCommonMainKotlinMetadata")
-    }
-    filter { it.name.startsWith("compile") }.forEach {
-        it.dependsOn(openApiGenerateTask)
-    }
-    build {
-        dependsOn("jvmJar")
     }
 }

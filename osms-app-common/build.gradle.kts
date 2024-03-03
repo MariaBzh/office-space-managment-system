@@ -14,6 +14,7 @@ kotlin {
                 implementation(kotlin("stdlib-jdk8"))
 
                 implementation(project(":osms-common"))
+                implementation(project(":osms-mappers-log"))
                 implementation(project(":osms-stubs"))
                 implementation(project(":osms-biz"))
             }

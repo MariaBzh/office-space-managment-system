@@ -1,4 +1,4 @@
-rootProject.name = "office-space-managment-system"
+rootProject.name = "office-space-management-system"
 
 pluginManagement {
     val kotlinVersion: String by settings
@@ -30,3 +30,7 @@ include("osms-biz")
 include("osms-app-ktor")
 include("osms-app-kafka")
 include("osms-app-common")
+include("osms-logging-common")
+include("osms-logging-kermit")
+include("osms-api-log")
+include("osms-mappers-log")

@@ -36,7 +36,17 @@ class ControllerV1Test {
                     is BookingSearchRequest -> fromTransport(receive<BookingSearchRequest>())
                 }
             },
-            { toTransportBooking() }
+            {
+                when (request) {
+                    is BookingCreateRequest -> toTransportBooking() as BookingCreateResponse
+                    is BookingReadRequest -> toTransportBooking() as BookingReadResponse
+                    is BookingUpdateRequest -> toTransportBooking() as BookingUpdateResponse
+                    is BookingDeleteRequest -> toTransportBooking() as BookingDeleteResponse
+                    is BookingSearchRequest -> toTransportBooking() as BookingSearchResponse
+                }
+            },
+            ControllerV1Test::class,
+            "controller-v1-test"
         )
         respond(resp)
     }

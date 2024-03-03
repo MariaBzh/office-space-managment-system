@@ -1,6 +1,10 @@
 package ru.otus.osms.common
 
-class OsmsCorSettings {
+import ru.otus.osms.logging.common.OsmsLoggerProvider
+
+class OsmsCorSettings(
+    val loggerProvider: OsmsLoggerProvider = OsmsLoggerProvider(),
+) {
     companion object {
         val NONE = OsmsCorSettings()
     }

@@ -11,9 +11,6 @@ repositories {
     mavenCentral()
 }
 
-group = "ru.otus.osms"
-version = "0.0.1"
-
 repositories {
     mavenCentral()
 }
