@@ -7,7 +7,7 @@ plugins {
 }
 
 crowdprojGenerate {
-    packageName.set("${project.group}.api.v1")
+    packageName.set("${project.group}.api.v1.kpm")
     inputSpec.set("$rootDir/spec-openapi/specs-osms-v1.yaml")
 }
 

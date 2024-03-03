@@ -1,8 +1,8 @@
 package ru.otus.osms.ktor.jvm.v1
 
-import OsmsBookingProcessor
 import io.ktor.server.application.*
 import io.ktor.server.routing.*
+import ru.otus.osms.biz.OsmsBookingProcessor
 
 fun Route.v1Booking(processor: OsmsBookingProcessor) {
     route("bookings") {

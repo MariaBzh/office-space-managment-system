@@ -1,1 +1,1 @@
-package ru.otus.osms.api.v1
+package ru.otus.osms.api.v1.kpm

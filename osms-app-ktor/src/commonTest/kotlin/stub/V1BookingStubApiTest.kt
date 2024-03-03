@@ -8,8 +8,8 @@ import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.testing.*
 import io.ktor.util.*
-import ru.otus.osms.api.v1.apiV1Mapper
-import ru.otus.osms.api.v1.models.*
+import ru.otus.osms.api.v1.kpm.apiV1Mapper
+import ru.otus.osms.api.v1.kpm.models.*
 import ru.otus.osms.ktor.module
 import kotlin.test.Test
 import kotlin.test.assertEquals

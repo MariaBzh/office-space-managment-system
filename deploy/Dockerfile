@@ -1,9 +1,9 @@
-FROM ubuntu:22.04
+FROM gradle:7.6.4-jdk17
 
-RUN apt-get -y update && apt-get -y install nginx
+EXPOSE 8080:8080
 
-COPY volumes/nginx /etc/nginx/sites-available/default
+RUN mkdir /app
 
-EXPOSE 80/tcp
+COPY ./build/libs/*-all.jar /app/osms.jar
 
-ENTRYPOINT ["/usr/sbin/nginx", "-g", "daemon off;"]
+ENTRYPOINT ["java","-jar","/app/osms.jar"]

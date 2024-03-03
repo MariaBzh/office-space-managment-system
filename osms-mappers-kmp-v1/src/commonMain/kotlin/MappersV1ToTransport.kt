@@ -1,6 +1,6 @@
 package ru.otus.osms.mappers.kmp.v1
 
-import ru.otus.osms.api.v1.models.*
+import ru.otus.osms.api.v1.kpm.models.*
 import ru.otus.osms.common.OsmsContext
 import ru.otus.osms.common.models.*
 import ru.otus.osms.mappers.kmp.v1.exceptions.UnknownOsmsCommand
