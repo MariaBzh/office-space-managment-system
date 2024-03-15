@@ -12,8 +12,8 @@ object OsmsBookingStubBolts {
             floor = FLOOR_1,
             office = OFFICE_MSK,
             description = "",
-            startTime = "2024-01-01 10:00:00.0000",
-            endTime = "2024-01-01 11:00:00.0000",
+            startTime = "2024-01-01T10:00:00.0000",
+            endTime = "2024-01-01T11:00:00.0000",
             lock = OsmsBookingLock.NONE,
             permissions = mutableSetOf(
                 OsmsBookingPermissions.READ,
@@ -44,6 +44,12 @@ object OsmsBookingStubBolts {
             message = "Incorrect time"
         )
 
+    val BOOKING_DB_ERROR: OsmsError
+        get() = OsmsError(
+            group = "internal",
+            code = "internal-db",
+            message = "Internal error"
+        )
 
     val OFFICE_MSK: OsmsOffice
         get() = OsmsOffice(

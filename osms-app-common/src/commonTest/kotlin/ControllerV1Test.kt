@@ -115,8 +115,8 @@ class ControllerV1Test {
                     name = "Марс"
                 ),
                 workspaceUid = "3d6acb16-6e60-42ca-8fd3-a7492fa21caa",
-                startTime = "2023-12-21 10:00:00.000",
-                endTime = "2023-12-21 16:00:00.000",
+                startTime = "2023-12-21T10:00:00.000",
+                endTime = "2023-12-21T16:00:00.000",
             )
         )
 
@@ -153,8 +153,8 @@ class ControllerV1Test {
                     name = "Марс"
                 ),
                 workspaceUid = "3d6acb16-6e60-42ca-8fd3-a7492fa21caa",
-                startTime = "2023-12-21 10:00:00.000",
-                endTime = "2023-12-21 16:00:00.000",
+                startTime = "2023-12-21T10:00:00.000",
+                endTime = "2023-12-21T16:00:00.000",
             )
         )
 
@@ -190,8 +190,8 @@ class ControllerV1Test {
                     name = "Марс"
                 ),
                 workspaceUid = "3d6acb16-6e60-42ca-8fd3-a7492fa21caa",
-                startTime = "2023-12-21 10:00:00.000",
-                endTime = "2023-12-21 16:00:00.000",
+                startTime = "2023-12-21T10:00:00.000",
+                endTime = "2023-12-21T16:00:00.000",
             )
         )
 

@@ -126,8 +126,8 @@ class RequestV1SerializationTest {
                     assertEquals("Марс", obj.booking?.office?.name)
 
                     assertEquals("3d6acb16-6e60-42ca-8fd3-a7492fa21caa", obj.booking?.workspaceUid)
-                    assertEquals("2023-12-21 10:00:00.000", obj.booking?.startTime)
-                    assertEquals("2023-12-21 16:00:00.000", obj.booking?.endTime)
+                    assertEquals("2023-12-21T10:00:00.000", obj.booking?.startTime)
+                    assertEquals("2023-12-21T16:00:00.000", obj.booking?.endTime)
                 }
                 is BookingReadRequest -> {
                     assertEquals("d425f0a6-1hf1-3d10-99e8-25e1r41e27c2", obj.booking?.bookingUid)
@@ -147,8 +147,8 @@ class RequestV1SerializationTest {
                     assertEquals("Марс", obj.booking?.office?.name)
 
                     assertEquals("3d6acb16-6e60-42ca-8fd3-a7492fa21caa", obj.booking?.workspaceUid)
-                    assertEquals("2023-12-21 10:00:00.000", obj.booking?.startTime)
-                    assertEquals("2023-12-21 16:00:00.000", obj.booking?.endTime)
+                    assertEquals("2023-12-21T10:00:00.000", obj.booking?.startTime)
+                    assertEquals("2023-12-21T16:00:00.000", obj.booking?.endTime)
                 }
                 is BookingDeleteRequest -> {
                     assertEquals("d425f0a6-1hf1-3d10-99e8-25e1r41e27c2", obj.booking?.bookingUid)
@@ -166,8 +166,8 @@ class RequestV1SerializationTest {
                     assertEquals("Марс", obj.bookingFilter?.office?.name)
 
                     assertEquals("3d6acb16-6e60-42ca-8fd3-a7492fa21caa", obj.bookingFilter?.workspaceUid)
-                    assertEquals("2023-12-21 10:00:00.000", obj.bookingFilter?.startTime)
-                    assertEquals("2023-12-21 16:00:00.000", obj.bookingFilter?.endTime)
+                    assertEquals("2023-12-21T10:00:00.000", obj.bookingFilter?.startTime)
+                    assertEquals("2023-12-21T16:00:00.000", obj.bookingFilter?.endTime)
                 }
             }
         }
@@ -201,8 +201,8 @@ class RequestV1SerializationTest {
                     },
                     "workspaceUid": "3d6acb16-6e60-42ca-8fd3-a7492fa21caa",
                     "description": null,
-                    "startTime": "2023-12-21 10:00:00.000",
-                    "endTime": "2023-12-21 16:00:00.000"
+                    "startTime": "2023-12-21T10:00:00.000",
+                    "endTime": "2023-12-21T16:00:00.000"
                 }
             }
         """.trimIndent()
@@ -249,8 +249,8 @@ class RequestV1SerializationTest {
                     },
                     "workspaceUid": "3d6acb16-6e60-42ca-8fd3-a7492fa21caa",
                     "description": null,
-                    "startTime": "2023-12-21 10:00:00.000",
-                    "endTime": "2023-12-21 16:00:00.000",
+                    "startTime": "2023-12-21T10:00:00.000",
+                    "endTime": "2023-12-21T16:00:00.000",
                     "lock": null
                 }
             }
@@ -297,8 +297,8 @@ class RequestV1SerializationTest {
                         "description": null
                     },
                     "workspaceUid": "3d6acb16-6e60-42ca-8fd3-a7492fa21caa", 
-                    "startTime": "2023-12-21 10:00:00.000",
-                    "endTime": "2023-12-21 16:00:00.000"
+                    "startTime": "2023-12-21T10:00:00.000",
+                    "endTime": "2023-12-21T16:00:00.000"
                 }
             }
         """.trimIndent()
@@ -331,8 +331,8 @@ class RequestV1SerializationTest {
                     name = "Марс"
                 ),
                 workspaceUid = "3d6acb16-6e60-42ca-8fd3-a7492fa21caa",
-                startTime = "2023-12-21 10:00:00.000",
-                endTime = "2023-12-21 16:00:00.000",
+                startTime = "2023-12-21T10:00:00.000",
+                endTime = "2023-12-21T16:00:00.000",
             )
         )
 
@@ -367,8 +367,8 @@ class RequestV1SerializationTest {
                     name = "Марс"
                 ),
                 workspaceUid = "3d6acb16-6e60-42ca-8fd3-a7492fa21caa",
-                startTime = "2023-12-21 10:00:00.000",
-                endTime = "2023-12-21 16:00:00.000",
+                startTime = "2023-12-21T10:00:00.000",
+                endTime = "2023-12-21T16:00:00.000",
             )
         )
 
@@ -402,8 +402,8 @@ class RequestV1SerializationTest {
                     name = "Марс"
                 ),
                 workspaceUid = "3d6acb16-6e60-42ca-8fd3-a7492fa21caa",
-                startTime = "2023-12-21 10:00:00.000",
-                endTime = "2023-12-21 16:00:00.000",
+                startTime = "2023-12-21T10:00:00.000",
+                endTime = "2023-12-21T16:00:00.000",
             )
         )
 

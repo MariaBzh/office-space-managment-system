@@ -36,8 +36,8 @@ class V1BookingStubApiTest {
                     name = "Московский"
                 ),
                 workspaceUid = "workspace-1",
-                startTime = "2024-01-01 10:00:00.0000",
-                endTime = "2024-01-01 11:00:00.0000",
+                startTime = "2024-01-01T10:00:00.0000",
+                endTime = "2024-01-01T11:00:00.0000",
             ),
             debug = BookingDebug(
                 mode = BookingRequestDebugMode.STUB,
@@ -99,8 +99,8 @@ class V1BookingStubApiTest {
                     name = "Московский"
                 ),
                 workspaceUid = "workspace-1",
-                startTime = "2024-01-01 12:00:00.0000",
-                endTime = "2024-01-01 13:00:00.0000"
+                startTime = "2024-01-01T10:00:00.0000",
+                endTime = "2024-01-01T11:00:00.0000",
             ),
             debug = BookingDebug(
                 mode = BookingRequestDebugMode.STUB,
@@ -162,7 +162,7 @@ class V1BookingStubApiTest {
         }
         val responseObj = response.body<BookingSearchResponse>()
         assertEquals(200, response.status.value)
-        assertEquals(6, responseObj.bookings?.size)
+        assertEquals(1, responseObj.bookings?.size)
     }
 
     @Test
@@ -231,8 +231,8 @@ class V1BookingStubApiTest {
                     name = "Московский"
                 ),
                 workspaceUid = "workspace-1",
-                startTime = "2025-01-01 10:00:00.0000",
-                endTime = "2024-01-01 11:00:00.0000",
+                startTime = "2025-01-01T10:00:00.0000",
+                endTime = "2024-01-01T11:00:00.0000",
             ),
             debug = BookingDebug(
                 mode = BookingRequestDebugMode.STUB,

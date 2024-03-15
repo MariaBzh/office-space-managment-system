@@ -6,4 +6,5 @@ enum class OsmsStub {
     NOT_FOUND,
     BAD_UID,
     BAD_TIME,
+    DB_ERROR,
 }

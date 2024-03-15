@@ -46,7 +46,6 @@ fun <T> ICorChainDsl<T>.worker(
     blockHandle: T.() -> Unit
 ) {
     add(CorWorkerDsl<T>().also {
-
         it.handle(blockHandle)
     })
 }

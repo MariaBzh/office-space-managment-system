@@ -1,51 +1,183 @@
 package ru.otus.osms.biz
 
+import ru.otus.osms.biz.groups.operation
+import ru.otus.osms.biz.groups.stubs
+import ru.otus.osms.biz.validation.*
+import ru.otus.osms.biz.workers.*
 import ru.otus.osms.common.OsmsContext
-import ru.otus.osms.common.helpers.addError
-import ru.otus.osms.common.models.OsmsCommand
-import ru.otus.osms.common.models.OsmsState
-import ru.otus.osms.common.models.OsmsWorkMode
-import ru.otus.osms.common.stubs.OsmsStub
-import ru.otus.osms.stubs.OsmsBookingStub
+import ru.otus.osms.common.OsmsCorSettings
+import ru.otus.osms.common.models.*
+import ru.otus.osms.cor.rootChain
+import ru.otus.osms.cor.worker
 
-@Suppress("RedundantSuspendModifier")
-class OsmsBookingProcessor {
-    suspend fun exec(ctx: OsmsContext) {
-        require(ctx.workMode == OsmsWorkMode.STUB) {
-            "Currently working only in STUB mode."
-        }
+class OsmsBookingProcessor(
+        @Suppress("unused")
+        private val corSettings: OsmsCorSettings = OsmsCorSettings.NONE
+) {
+    suspend fun exec(ctx: OsmsContext) = BusinessChain.exec(ctx.also { it.corSettings = corSettings })
 
-        when (ctx.stubCase) {
-            OsmsStub.SUCCESS -> {
-                when (ctx.command) {
-                    OsmsCommand.CREATE -> {
-                        ctx.bookingResponse = OsmsBookingStub.get()
-                        ctx.state = OsmsState.RUNNING
-                    }
-                    OsmsCommand.UPDATE -> {
-                        ctx.bookingResponse = OsmsBookingStub.get(
-                            ctx.bookingRequest.bookingUid.asString(),
-                            ctx.bookingRequest.startTime,
-                            ctx.bookingRequest.endTime,
-                        )
-                        ctx.state = OsmsState.RUNNING
-                    }
-                    OsmsCommand.SEARCH -> {
-                        ctx.bookingsResponse.addAll(OsmsBookingStub.prepareSearchList())
-                        ctx.state = OsmsState.RUNNING
-                    }
-                    else -> {
-                        ctx.bookingResponse = OsmsBookingStub.get(ctx.bookingRequest.bookingUid.asString())
-                        ctx.state = OsmsState.RUNNING
-                    }
+    companion object {
+        private val BusinessChain = rootChain {
+            initStatus("Init status")
+            operation("Create booking", OsmsCommand.CREATE) {
+                stubs("Stubs processing") {
+                    stubCreateSuccess("Create booking success")
+                    stubValidationBadUid("Bad UID validation error")
+                    stubValidationBadTime("Bad time validation error")
+                    stubDbError("DB error")
+                    stubNoCase("Stub case not found")
+                }
+                validation {
+                    worker("Copy fields in 'bookingValidating'") { bookingValidating = bookingRequest.deepCopy() }
+
+                    validateUserNotBlank("Check if 'userUid' is not blank")
+                    validateUserUid("Check if 'userUid' valid")
+
+                    worker("Clean user UID") { bookingValidating.userUid = OsmsUserUid.NONE }
+
+                    validateWorkplaceNotBlank("Check if 'workplaceUid' is not blank")
+                    validateWorkplaceUid("Check if 'workplaceUid' valid")
+
+                    worker("Clean workplace UID") { bookingValidating.workspaceUid = OsmsWorkspaceUid.NONE }
+
+                    validateBranchNotBlank("Check if 'branch' is not blank")
+                    validateBranchUidNotBlank("Check if 'branchUid' is not blank")
+                    validateBranchUid("Check if 'branchUid' is valid")
+
+                    worker("Clean branch") { bookingValidating.branch = OsmsBranch.NONE }
+
+                    validateFloorNotBlank("Check if 'floor' is not blank")
+                    validateFloorUidNotBlank("Check if 'floorUid' is not blank")
+                    validateFloorUid("Check if 'floorUid' is valid")
+
+                    worker("Clean floor") { bookingValidating.floor = OsmsFloor.NONE }
+
+                    validateOfficeNotBlank("Check if 'office' is not blank")
+                    validateOfficeUidNotBlank("Check if 'officeUid' is not blank")
+                    validateOfficeUid("Check if 'officeUid' is valid")
+
+                    worker("Clean office") { bookingValidating.office = OsmsOffice.NONE }
+
+                    validateStartTimeNotBlank("Check if 'startTime' is not blank")
+                    validateEndTimeNotBlank("Check if 'endTime' is not blank")
+                    validateStartTimeFormat("Check if start time format is valid")
+                    validateEndTimeFormat("Check if end time format is valid")
+                    validateTime("Check if time range is valid")
+
+                    worker("Clean start time") { bookingValidating.startTime = "" }
+                    worker("Clean end time") { bookingValidating.endTime = "" }
+
+                    finishBookingValidation("Finish checks")
                 }
             }
-            OsmsStub.NOT_FOUND -> { ctx.addError(OsmsBookingStub.getError(OsmsStub.NOT_FOUND.name)) }
-            OsmsStub.BAD_TIME -> { ctx.addError(OsmsBookingStub.getError(OsmsStub.BAD_TIME.name)) }
-            OsmsStub.BAD_UID -> { ctx.addError(OsmsBookingStub.getError(OsmsStub.BAD_UID.name)) }
-            else -> {
-                ctx.bookingResponse = OsmsBookingStub.get(ctx.bookingRequest.bookingUid.asString())
+            operation("Read booking", OsmsCommand.READ) {
+                stubs("Stubs processing") {
+                    stubReadSuccess("Read booking success")
+                    stubBookingNotFound("Booking not found")
+                    stubValidationBadUid("Bad UID validation error")
+                    stubDbError("DB error")
+                    stubNoCase("Stub case not found")
+                }
+                validation {
+                    worker("Copy fields in 'bookingValidating'") { bookingValidating = bookingRequest.deepCopy() }
+                    worker("Clean bookingUid") { bookingValidating.bookingUid = OsmsBookingUid.NONE }
+
+                    validateBookingNotBlank("Check if 'bookingUid' is not blank")
+                    validateBookingUid("Check if 'bookingUid' valid")
+
+                    finishBookingValidation("Finish checks")
+                }
             }
-        }
+            operation("Изменить объявление", OsmsCommand.UPDATE) {
+                stubs("Stubs processing") {
+                    stubUpdateSuccess("Имитация успешной обработки")
+                    stubBookingNotFound("Booking not found")
+                    stubValidationBadUid("Bad UID validation error")
+                    stubValidationBadTime("Bad time validation error")
+                    stubDbError("DB error")
+                    stubNoCase("Stub case not found")
+                }
+                validation {
+                    worker("Copy fields in 'bookingValidating'") { bookingValidating = bookingRequest.deepCopy() }
+
+                    validateBookingNotBlank("Check if 'bookingUid' is not blank")
+                    validateBookingUid("Check if 'bookingUid' valid")
+
+                    worker("Clean booking UID") { bookingValidating.bookingUid = OsmsBookingUid.NONE }
+
+                    validateUserNotBlank("Check if 'userUid' is not blank")
+                    validateUserUid("Check if 'userUid' valid")
+
+                    worker("Clean user UID") { bookingValidating.userUid = OsmsUserUid.NONE }
+
+                    validateWorkplaceNotBlank("Check if 'workplaceUid' is not blank")
+                    validateWorkplaceUid("Check if 'workplaceUid' valid")
+
+                    worker("Clean workplace UID") { bookingValidating.workspaceUid = OsmsWorkspaceUid.NONE }
+
+                    validateBranchNotBlank("Check if 'branch' is not blank")
+                    validateBranchUidNotBlank("Check if 'branchUid' is not blank")
+                    validateBranchUid("Check if 'branchUid' is valid")
+
+                    worker("Clean branch") { bookingValidating.branch = OsmsBranch.NONE }
+
+                    validateFloorNotBlank("Check if 'floor' is not blank")
+                    validateFloorUidNotBlank("Check if 'floorUid' is not blank")
+                    validateFloorUid("Check if 'floorUid' is valid")
+
+                    worker("Clean floor") { bookingValidating.floor = OsmsFloor.NONE }
+
+                    validateOfficeNotBlank("Check if 'office' is not blank")
+                    validateOfficeUidNotBlank("Check if 'officeUid' is not blank")
+                    validateOfficeUid("Check if 'officeUid' is valid")
+
+                    worker("Clean office") { bookingValidating.office = OsmsOffice.NONE }
+
+                    validateStartTimeNotBlank("Check if 'startTime' is not blank")
+                    validateEndTimeNotBlank("Check if 'endTime' is not blank")
+                    validateStartTimeFormat("Check if start time format is valid")
+                    validateEndTimeFormat("Check if end time format is valid")
+                    validateTime("Check if time range is valid")
+
+                    worker("Clean start time") { bookingValidating.startTime = "" }
+                    worker("Clean end time") { bookingValidating.endTime = "" }
+
+                    finishBookingValidation("Finish checks")
+                }
+            }
+            operation("Удалить объявление", OsmsCommand.DELETE) {
+                stubs("Stubs processing") {
+                    stubDeleteSuccess("Имитация успешной обработки")
+                    stubBookingNotFound("Booking not found")
+                    stubValidationBadUid("Bad UID validation error")
+                    stubDbError("DB error")
+                    stubNoCase("Stub case not found")
+                }
+                validation {
+                    worker("Copy fields in 'bookingValidating'") { bookingValidating = bookingRequest.deepCopy() }
+                    worker("Clean 'booking UID'") { bookingValidating.bookingUid = OsmsBookingUid.NONE }
+
+                    validateBookingNotBlank("Check if 'bookingUid' is not blank")
+                    validateBookingUid("Check if 'bookingUid' valid")
+
+                    finishBookingValidation("Finish checks")
+                }
+            }
+            operation("Поиск объявлений", OsmsCommand.SEARCH) {
+                stubs("Stubs processing") {
+                    stubSearchSuccess("Имитация успешной обработки")
+                    stubBookingNotFound("Booking not found")
+                    stubValidationBadUid("Bad UID validation error")
+                    stubValidationBadTime("Bad time validation error")
+                    stubDbError("DB error")
+                    stubNoCase("Stub case not found")
+                }
+                validation {
+                    worker("Копируем поля в adFilterValidating") { bookingFilterValidating = bookingFilterRequest.copy() }
+
+                    finishBookingFilterValidation("Успешное завершение процедуры валидации")
+                }
+            }
+        }.build()
     }
 }
