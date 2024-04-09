@@ -27,6 +27,9 @@ kotlin {
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
 
+                implementation(project(":osms-repo-tests"))
+                implementation(project(":osms-repo-stubs"))
+
                 api("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion")
             }
         }

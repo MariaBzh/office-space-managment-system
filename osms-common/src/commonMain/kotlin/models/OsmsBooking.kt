@@ -28,4 +28,10 @@ data class OsmsBooking(
         ),
         permissions = permissions.toMutableSet(),
     )
+
+    fun isEmpty() = this == NONE
+
+    companion object {
+        private val NONE = OsmsBooking()
+    }
 }

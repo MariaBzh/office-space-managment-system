@@ -36,3 +36,16 @@ fun errorValidation(
     message = "Validation error for field $field: $description",
     level = level,
 )
+
+fun errorAdministration(
+    field: String = "",
+    violationCode: String,
+    description: String,
+    level: LogLevel = LogLevel.ERROR,
+) = OsmsError(
+    field = field,
+    code = "administration-$violationCode",
+    group = "administration",
+    message = "Microservice management error: $description",
+    level = level,
+)

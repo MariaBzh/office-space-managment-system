@@ -1,12 +1,16 @@
 package ru.otus.osms.biz
 
+import ru.otus.osms.biz.general.initRepo
+import ru.otus.osms.biz.general.prepareResult
 import ru.otus.osms.biz.groups.operation
 import ru.otus.osms.biz.groups.stubs
+import ru.otus.osms.biz.repo.*
 import ru.otus.osms.biz.validation.*
 import ru.otus.osms.biz.workers.*
 import ru.otus.osms.common.OsmsContext
 import ru.otus.osms.common.OsmsCorSettings
 import ru.otus.osms.common.models.*
+import ru.otus.osms.cor.chain
 import ru.otus.osms.cor.rootChain
 import ru.otus.osms.cor.worker
 
@@ -19,6 +23,7 @@ class OsmsBookingProcessor(
     companion object {
         private val BusinessChain = rootChain {
             initStatus("Init status")
+            initRepo("Init repo")
             operation("Create booking", OsmsCommand.CREATE) {
                 stubs("Stubs processing") {
                     stubCreateSuccess("Create booking success")
@@ -33,30 +38,30 @@ class OsmsBookingProcessor(
                     validateUserNotBlank("Check if 'userUid' is not blank")
                     validateUserUid("Check if 'userUid' valid")
 
-                    worker("Clean user UID") { bookingValidating.userUid = OsmsUserUid.NONE }
+                    // worker("Clean user UID") { bookingValidating.userUid = OsmsUserUid.NONE }
 
                     validateWorkplaceNotBlank("Check if 'workplaceUid' is not blank")
                     validateWorkplaceUid("Check if 'workplaceUid' valid")
 
-                    worker("Clean workplace UID") { bookingValidating.workspaceUid = OsmsWorkspaceUid.NONE }
+                    // worker("Clean workplace UID") { bookingValidating.workspaceUid = OsmsWorkspaceUid.NONE }
 
                     validateBranchNotBlank("Check if 'branch' is not blank")
                     validateBranchUidNotBlank("Check if 'branchUid' is not blank")
                     validateBranchUid("Check if 'branchUid' is valid")
 
-                    worker("Clean branch") { bookingValidating.branch = OsmsBranch.NONE }
+                    // worker("Clean branch") { bookingValidating.branch = OsmsBranch.NONE }
 
                     validateFloorNotBlank("Check if 'floor' is not blank")
                     validateFloorUidNotBlank("Check if 'floorUid' is not blank")
                     validateFloorUid("Check if 'floorUid' is valid")
 
-                    worker("Clean floor") { bookingValidating.floor = OsmsFloor.NONE }
+                    // worker("Clean floor") { bookingValidating.floor = OsmsFloor.NONE }
 
                     validateOfficeNotBlank("Check if 'office' is not blank")
                     validateOfficeUidNotBlank("Check if 'officeUid' is not blank")
                     validateOfficeUid("Check if 'officeUid' is valid")
 
-                    worker("Clean office") { bookingValidating.office = OsmsOffice.NONE }
+                    // worker("Clean office") { bookingValidating.office = OsmsOffice.NONE }
 
                     validateStartTimeNotBlank("Check if 'startTime' is not blank")
                     validateEndTimeNotBlank("Check if 'endTime' is not blank")
@@ -64,11 +69,17 @@ class OsmsBookingProcessor(
                     validateEndTimeFormat("Check if end time format is valid")
                     validateTime("Check if time range is valid")
 
-                    worker("Clean start time") { bookingValidating.startTime = "" }
-                    worker("Clean end time") { bookingValidating.endTime = "" }
+                    // worker("Clean start time") { bookingValidating.startTime = "" }
+                    // worker("Clean end time") { bookingValidating.endTime = "" }
 
                     finishBookingValidation("Finish checks")
                 }
+                chain {
+                    title = "Логика сохранения"
+                    repoPrepareCreate("Подготовка объекта для сохранения")
+                    repoCreate("Создание объявления в БД")
+                }
+                prepareResult("Подготовка ответа")
             }
             operation("Read booking", OsmsCommand.READ) {
                 stubs("Stubs processing") {
@@ -80,13 +91,23 @@ class OsmsBookingProcessor(
                 }
                 validation {
                     worker("Copy fields in 'bookingValidating'") { bookingValidating = bookingRequest.deepCopy() }
-                    worker("Clean bookingUid") { bookingValidating.bookingUid = OsmsBookingUid.NONE }
+                    // worker("Clean bookingUid") { bookingValidating.bookingUid = OsmsBookingUid.NONE }
 
                     validateBookingNotBlank("Check if 'bookingUid' is not blank")
                     validateBookingUid("Check if 'bookingUid' valid")
 
                     finishBookingValidation("Finish checks")
                 }
+                chain {
+                    title = "Логика чтения"
+                    repoRead("Чтение объявления из БД")
+                    worker {
+                        title = "Подготовка ответа для Read"
+                        on { state == OsmsState.RUNNING }
+                        handle { bookingRepoDone = bookingRepoRead }
+                    }
+                }
+                prepareResult("Подготовка ответа")
             }
             operation("Изменить объявление", OsmsCommand.UPDATE) {
                 stubs("Stubs processing") {
@@ -103,35 +124,35 @@ class OsmsBookingProcessor(
                     validateBookingNotBlank("Check if 'bookingUid' is not blank")
                     validateBookingUid("Check if 'bookingUid' valid")
 
-                    worker("Clean booking UID") { bookingValidating.bookingUid = OsmsBookingUid.NONE }
+                    // worker("Clean booking UID") { bookingValidating.bookingUid = OsmsBookingUid.NONE }
 
                     validateUserNotBlank("Check if 'userUid' is not blank")
                     validateUserUid("Check if 'userUid' valid")
 
-                    worker("Clean user UID") { bookingValidating.userUid = OsmsUserUid.NONE }
+                    // worker("Clean user UID") { bookingValidating.userUid = OsmsUserUid.NONE }
 
                     validateWorkplaceNotBlank("Check if 'workplaceUid' is not blank")
                     validateWorkplaceUid("Check if 'workplaceUid' valid")
 
-                    worker("Clean workplace UID") { bookingValidating.workspaceUid = OsmsWorkspaceUid.NONE }
+                    // worker("Clean workplace UID") { bookingValidating.workspaceUid = OsmsWorkspaceUid.NONE }
 
                     validateBranchNotBlank("Check if 'branch' is not blank")
                     validateBranchUidNotBlank("Check if 'branchUid' is not blank")
                     validateBranchUid("Check if 'branchUid' is valid")
 
-                    worker("Clean branch") { bookingValidating.branch = OsmsBranch.NONE }
+                    // worker("Clean branch") { bookingValidating.branch = OsmsBranch.NONE }
 
                     validateFloorNotBlank("Check if 'floor' is not blank")
                     validateFloorUidNotBlank("Check if 'floorUid' is not blank")
                     validateFloorUid("Check if 'floorUid' is valid")
 
-                    worker("Clean floor") { bookingValidating.floor = OsmsFloor.NONE }
+                    // worker("Clean floor") { bookingValidating.floor = OsmsFloor.NONE }
 
                     validateOfficeNotBlank("Check if 'office' is not blank")
                     validateOfficeUidNotBlank("Check if 'officeUid' is not blank")
                     validateOfficeUid("Check if 'officeUid' is valid")
 
-                    worker("Clean office") { bookingValidating.office = OsmsOffice.NONE }
+                    // worker("Clean office") { bookingValidating.office = OsmsOffice.NONE }
 
                     validateStartTimeNotBlank("Check if 'startTime' is not blank")
                     validateEndTimeNotBlank("Check if 'endTime' is not blank")
@@ -139,11 +160,18 @@ class OsmsBookingProcessor(
                     validateEndTimeFormat("Check if end time format is valid")
                     validateTime("Check if time range is valid")
 
-                    worker("Clean start time") { bookingValidating.startTime = "" }
-                    worker("Clean end time") { bookingValidating.endTime = "" }
+                    // worker("Clean start time") { bookingValidating.startTime = "" }
+                    // worker("Clean end time") { bookingValidating.endTime = "" }
 
                     finishBookingValidation("Finish checks")
                 }
+                chain {
+                    title = "Логика сохранения"
+                    repoRead("Чтение объявления из БД")
+                    repoPrepareUpdate("Подготовка объекта для обновления")
+                    repoUpdate("Обновление объявления в БД")
+                }
+                prepareResult("Подготовка ответа")
             }
             operation("Удалить объявление", OsmsCommand.DELETE) {
                 stubs("Stubs processing") {
@@ -155,13 +183,21 @@ class OsmsBookingProcessor(
                 }
                 validation {
                     worker("Copy fields in 'bookingValidating'") { bookingValidating = bookingRequest.deepCopy() }
-                    worker("Clean 'booking UID'") { bookingValidating.bookingUid = OsmsBookingUid.NONE }
 
                     validateBookingNotBlank("Check if 'bookingUid' is not blank")
                     validateBookingUid("Check if 'bookingUid' valid")
 
+                    // worker("Clean 'booking UID'") { bookingValidating.bookingUid = OsmsBookingUid.NONE }
+
                     finishBookingValidation("Finish checks")
                 }
+                chain {
+                    title = "Логика удаления"
+                    repoRead("Чтение объявления из БД")
+                    repoPrepareDelete("Подготовка объекта для удаления")
+                    repoDelete("Удаление объявления из БД")
+                }
+                prepareResult("Подготовка ответа")
             }
             operation("Поиск объявлений", OsmsCommand.SEARCH) {
                 stubs("Stubs processing") {
@@ -177,6 +213,8 @@ class OsmsBookingProcessor(
 
                     finishBookingFilterValidation("Успешное завершение процедуры валидации")
                 }
+                repoSearch("Поиск объявления в БД по фильтру")
+                prepareResult("Подготовка ответа")
             }
         }.build()
     }

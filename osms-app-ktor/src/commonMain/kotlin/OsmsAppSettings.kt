@@ -6,6 +6,6 @@ import ru.otus.osms.common.OsmsCorSettings
 
 data class OsmsAppSettings(
     val appUrls: List<String> = emptyList(),
-    override val processor: OsmsBookingProcessor = OsmsBookingProcessor(),
     override val corSettings: OsmsCorSettings = OsmsCorSettings(),
+    override val processor: OsmsBookingProcessor = OsmsBookingProcessor(corSettings),
 ) : IOsmsAppSettings

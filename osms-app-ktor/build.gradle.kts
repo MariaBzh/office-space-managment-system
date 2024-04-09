@@ -77,6 +77,9 @@ kotlin {
                 implementation(project(":osms-logging-common"))
                 implementation(project(":osms-logging-kermit"))
 
+                implementation(project(":osms-in-memory"))
+                implementation(project(":osms-repo-stubs"))
+
                 implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:$serializationVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$serializationVersion")
@@ -88,6 +91,8 @@ kotlin {
                 implementation(kotlin("test"))
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
+
+                implementation(project(":osms-repo-tests"))
 
                 implementation(ktorServer("test-host"))
                 implementation(ktorClient("content-negotiation"))
