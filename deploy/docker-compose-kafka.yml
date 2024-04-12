@@ -1,20 +1,6 @@
 version: '3'
 services:
 
-  zookeeper:
-    image: confluentinc/cp-zookeeper:7.0.9
-    container_name: zookeeper
-    healthcheck:
-      test: "[[ $$(echo srvr | nc localhost 2181 | grep -oG 'Mode: standalone') = \"Mode: standalone\" ]]"
-      interval: 10s
-      timeout: 1s
-      retries: 30
-    environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
-      ZOOKEEPER_TICK_TIME: 2000
-    ports:
-      - "2181:2181"
-
   kafka:
     image: confluentinc/cp-kafka:7.0.9
     container_name: kafka
@@ -41,6 +27,20 @@ services:
       - "9092:9092"
       - "9091:9091"
       - "9101:9101"
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.0.9
+    container_name: zookeeper
+    healthcheck:
+      test: "[[ $$(echo srvr | nc localhost 2181 | grep -oG 'Mode: standalone') = \"Mode: standalone\" ]]"
+      interval: 10s
+      timeout: 1s
+      retries: 30
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181"
 
   kafka-ui:
     container_name: kafka-ui

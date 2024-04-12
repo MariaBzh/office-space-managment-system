@@ -38,30 +38,20 @@ class OsmsBookingProcessor(
                     validateUserNotBlank("Check if 'userUid' is not blank")
                     validateUserUid("Check if 'userUid' valid")
 
-                    // worker("Clean user UID") { bookingValidating.userUid = OsmsUserUid.NONE }
-
                     validateWorkplaceNotBlank("Check if 'workplaceUid' is not blank")
                     validateWorkplaceUid("Check if 'workplaceUid' valid")
-
-                    // worker("Clean workplace UID") { bookingValidating.workspaceUid = OsmsWorkspaceUid.NONE }
 
                     validateBranchNotBlank("Check if 'branch' is not blank")
                     validateBranchUidNotBlank("Check if 'branchUid' is not blank")
                     validateBranchUid("Check if 'branchUid' is valid")
 
-                    // worker("Clean branch") { bookingValidating.branch = OsmsBranch.NONE }
-
                     validateFloorNotBlank("Check if 'floor' is not blank")
                     validateFloorUidNotBlank("Check if 'floorUid' is not blank")
                     validateFloorUid("Check if 'floorUid' is valid")
 
-                    // worker("Clean floor") { bookingValidating.floor = OsmsFloor.NONE }
-
                     validateOfficeNotBlank("Check if 'office' is not blank")
                     validateOfficeUidNotBlank("Check if 'officeUid' is not blank")
                     validateOfficeUid("Check if 'officeUid' is valid")
-
-                    // worker("Clean office") { bookingValidating.office = OsmsOffice.NONE }
 
                     validateStartTimeNotBlank("Check if 'startTime' is not blank")
                     validateEndTimeNotBlank("Check if 'endTime' is not blank")
@@ -69,10 +59,15 @@ class OsmsBookingProcessor(
                     validateEndTimeFormat("Check if end time format is valid")
                     validateTime("Check if time range is valid")
 
+                    finishBookingValidation("Finish checks")
+
+                    // worker("Clean user UID") { bookingValidating.userUid = OsmsUserUid.NONE }
+                    // worker("Clean workplace UID") { bookingValidating.workspaceUid = OsmsWorkspaceUid.NONE }
+                    // worker("Clean branch") { bookingValidating.branch = OsmsBranch.NONE }
+                    // worker("Clean floor") { bookingValidating.floor = OsmsFloor.NONE }
+                    // worker("Clean office") { bookingValidating.office = OsmsOffice.NONE }
                     // worker("Clean start time") { bookingValidating.startTime = "" }
                     // worker("Clean end time") { bookingValidating.endTime = "" }
-
-                    finishBookingValidation("Finish checks")
                 }
                 chain {
                     title = "Логика сохранения"
@@ -91,12 +86,13 @@ class OsmsBookingProcessor(
                 }
                 validation {
                     worker("Copy fields in 'bookingValidating'") { bookingValidating = bookingRequest.deepCopy() }
-                    // worker("Clean bookingUid") { bookingValidating.bookingUid = OsmsBookingUid.NONE }
 
                     validateBookingNotBlank("Check if 'bookingUid' is not blank")
                     validateBookingUid("Check if 'bookingUid' valid")
 
                     finishBookingValidation("Finish checks")
+
+                    // worker("Clean bookingUid") { bookingValidating.bookingUid = OsmsBookingUid.NONE }
                 }
                 chain {
                     title = "Логика чтения"
@@ -124,35 +120,23 @@ class OsmsBookingProcessor(
                     validateBookingNotBlank("Check if 'bookingUid' is not blank")
                     validateBookingUid("Check if 'bookingUid' valid")
 
-                    // worker("Clean booking UID") { bookingValidating.bookingUid = OsmsBookingUid.NONE }
-
                     validateUserNotBlank("Check if 'userUid' is not blank")
                     validateUserUid("Check if 'userUid' valid")
 
-                    // worker("Clean user UID") { bookingValidating.userUid = OsmsUserUid.NONE }
-
                     validateWorkplaceNotBlank("Check if 'workplaceUid' is not blank")
                     validateWorkplaceUid("Check if 'workplaceUid' valid")
-
-                    // worker("Clean workplace UID") { bookingValidating.workspaceUid = OsmsWorkspaceUid.NONE }
 
                     validateBranchNotBlank("Check if 'branch' is not blank")
                     validateBranchUidNotBlank("Check if 'branchUid' is not blank")
                     validateBranchUid("Check if 'branchUid' is valid")
 
-                    // worker("Clean branch") { bookingValidating.branch = OsmsBranch.NONE }
-
                     validateFloorNotBlank("Check if 'floor' is not blank")
                     validateFloorUidNotBlank("Check if 'floorUid' is not blank")
                     validateFloorUid("Check if 'floorUid' is valid")
 
-                    // worker("Clean floor") { bookingValidating.floor = OsmsFloor.NONE }
-
                     validateOfficeNotBlank("Check if 'office' is not blank")
                     validateOfficeUidNotBlank("Check if 'officeUid' is not blank")
                     validateOfficeUid("Check if 'officeUid' is valid")
-
-                    // worker("Clean office") { bookingValidating.office = OsmsOffice.NONE }
 
                     validateStartTimeNotBlank("Check if 'startTime' is not blank")
                     validateEndTimeNotBlank("Check if 'endTime' is not blank")
@@ -160,10 +144,16 @@ class OsmsBookingProcessor(
                     validateEndTimeFormat("Check if end time format is valid")
                     validateTime("Check if time range is valid")
 
+                    finishBookingValidation("Finish checks")
+
+                    // worker("Clean booking UID") { bookingValidating.bookingUid = OsmsBookingUid.NONE }
+                    // worker("Clean user UID") { bookingValidating.userUid = OsmsUserUid.NONE }
+                    // worker("Clean workplace UID") { bookingValidating.workspaceUid = OsmsWorkspaceUid.NONE }
+                    // worker("Clean branch") { bookingValidating.branch = OsmsBranch.NONE }
+                    // worker("Clean floor") { bookingValidating.floor = OsmsFloor.NONE }
+                    // worker("Clean office") { bookingValidating.office = OsmsOffice.NONE }
                     // worker("Clean start time") { bookingValidating.startTime = "" }
                     // worker("Clean end time") { bookingValidating.endTime = "" }
-
-                    finishBookingValidation("Finish checks")
                 }
                 chain {
                     title = "Логика сохранения"
@@ -187,9 +177,9 @@ class OsmsBookingProcessor(
                     validateBookingNotBlank("Check if 'bookingUid' is not blank")
                     validateBookingUid("Check if 'bookingUid' valid")
 
-                    // worker("Clean 'booking UID'") { bookingValidating.bookingUid = OsmsBookingUid.NONE }
-
                     finishBookingValidation("Finish checks")
+
+                    // worker("Clean 'booking UID'") { bookingValidating.bookingUid = OsmsBookingUid.NONE }
                 }
                 chain {
                     title = "Логика удаления"
