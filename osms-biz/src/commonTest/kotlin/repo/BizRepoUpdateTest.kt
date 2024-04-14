@@ -32,6 +32,7 @@ class BizRepoUpdateTest {
             workspaceUid = OsmsWorkspaceUid(UUID),
             startTime = START_TIME_UPDATE,
             endTime = END_TIME_UPDATE,
+            lock = OsmsBookingLock(LOCK),
         )
         val context = OsmsContext(
             command = COMMAND,
@@ -65,6 +66,7 @@ class BizRepoUpdateTest {
         private val COMMAND = OsmsCommand.UPDATE
 
         private const val UUID = "2d0ff2booking-11se-df12-9y0q-we11a0xz45g1"
+        private const val LOCK = "123"
         private const val START_TIME_UPDATE = "2024-01-01T11:00:00"
         private const val END_TIME_UPDATE = "2024-01-01T13:00:00"
 

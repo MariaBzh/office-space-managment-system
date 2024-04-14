@@ -16,6 +16,7 @@ class BizRepoDeleteTest {
     fun repoDeleteSuccessTest() = runTest {
         val bookingToDelete = OsmsBooking(
             bookingUid = OsmsBookingUid(UUID),
+            lock = OsmsBookingLock(LOCK),
         )
         val context = OsmsContext(
             command = COMMAND,
@@ -49,6 +50,7 @@ class BizRepoDeleteTest {
         private val COMMAND = OsmsCommand.DELETE
 
         private const val UUID = "2d0ff2ad-11se-df12-9y0q-we11a0xz45g1"
+        private const val LOCK = "123"
 
         private val INIT_BOOKING = OsmsBooking(
             bookingUid = OsmsBookingUid(UUID),
@@ -68,6 +70,7 @@ class BizRepoDeleteTest {
             workspaceUid = OsmsWorkspaceUid(UUID),
             startTime = "2024-01-01T10:00:00",
             endTime = "2024-01-01T12:00:00",
+            lock = OsmsBookingLock(LOCK),
         )
         private val REPO by lazy {
             BookingRepositoryMock(

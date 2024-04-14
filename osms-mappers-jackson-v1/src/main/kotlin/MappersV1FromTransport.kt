@@ -17,6 +17,7 @@ fun OsmsContext.fromTransport(request: IRequest) = when (request) {
 
 private fun String?.toBookingUid() = this?.let { OsmsBookingUid(it) } ?: OsmsBookingUid.NONE
 private fun String?.toBookingWithUid() = OsmsBooking(bookingUid = this.toBookingUid())
+private fun String?.toBookingLock() = this?.let { OsmsBookingLock(it) } ?: OsmsBookingLock.NONE
 private fun String?.toUserUid() = this?.let { OsmsUserUid(it) } ?: OsmsUserUid.NONE
 private fun String?.toBranchUid() = this?.let { OsmsBranchUid(it) } ?: OsmsBranchUid.NONE
 private fun String?.toFloorUid() = this?.let { OsmsFloorUid(it) } ?: OsmsFloorUid.NONE
@@ -50,9 +51,16 @@ fun OsmsContext.fromTransport(request: BookingCreateRequest) {
 fun OsmsContext.fromTransport(request: BookingReadRequest) {
     command = OsmsCommand.READ
     requestUid = request.requestUid()
-    bookingRequest = request.booking?.bookingUid.toBookingWithUid()
+    bookingRequest = request.booking.toInternal()
+    // bookingRequest = request.booking?.bookingUid.toBookingWithUid()
     workMode = request.debug.transportToWorkMode()
     stubCase = request.debug.transportToStubCase()
+}
+
+private fun BookingReadObject?.toInternal(): OsmsBooking = if (this != null) {
+    OsmsBooking(bookingUid = bookingUid.toBookingUid())
+} else {
+    OsmsBooking()
 }
 
 fun OsmsContext.fromTransport(request: BookingUpdateRequest) {
@@ -66,9 +74,19 @@ fun OsmsContext.fromTransport(request: BookingUpdateRequest) {
 fun OsmsContext.fromTransport(request: BookingDeleteRequest) {
     command = OsmsCommand.DELETE
     requestUid = request.requestUid()
-    bookingRequest = request.booking?.bookingUid.toBookingWithUid()
+    bookingRequest = request.booking.toInternal()
+    // bookingRequest = request.booking?.bookingUid.toBookingWithUid()
     workMode = request.debug.transportToWorkMode()
     stubCase = request.debug.transportToStubCase()
+}
+
+private fun BookingDeleteObject?.toInternal(): OsmsBooking = if (this != null) {
+    OsmsBooking(
+        bookingUid = bookingUid.toBookingUid(),
+        lock = lock.toBookingLock(),
+    )
+} else {
+    OsmsBooking()
 }
 
 fun OsmsContext.fromTransport(request: BookingSearchRequest) {
@@ -112,6 +130,7 @@ private fun BookingUpdateObject.toInternal(): OsmsBooking = OsmsBooking(
     startTime = this.startTime ?: "",
     endTime = this.endTime ?: "",
     permissions = mutableSetOf(),
+    lock = lock.toBookingLock(),
 )
 
 private fun Branch?.toInternal(): OsmsBranch =

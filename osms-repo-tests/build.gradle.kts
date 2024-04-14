@@ -19,5 +19,14 @@ kotlin {
                 api(kotlin("test-junit"))
             }
         }
+        val jvmMain by getting {
+            dependencies {
+                implementation(project(":osms-common"))
+
+                api("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
+                api("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion")
+                api(kotlin("test-junit"))
+            }
+        }
     }
 }

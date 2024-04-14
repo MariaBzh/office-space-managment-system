@@ -7,7 +7,7 @@ import ru.otus.osms.common.models.*
 import kotlin.test.assertEquals
 
 fun validationUpdateUidIsBlank(command: OsmsCommand, processor: OsmsBookingProcessor) = runTest {
-    val ctx = OsmsContext(
+    val context = OsmsContext(
         command = command,
         state = OsmsState.NONE,
         workMode = OsmsWorkMode.TEST,
@@ -29,16 +29,17 @@ fun validationUpdateUidIsBlank(command: OsmsCommand, processor: OsmsBookingProce
             workspaceUid = OsmsWorkspaceUid.NONE,
             startTime = "2023-12-21T10:00:00",
             endTime = "2023-12-21T16:00:00",
+            lock = OsmsBookingLock("123"),
         ),
     )
-    processor.exec(ctx)
+    processor.exec(context)
 
-    assertEquals(6, ctx.errors.size)
-    assertEquals(OsmsState.FAILING, ctx.state)
+    assertEquals(6, context.errors.size)
+    assertEquals(OsmsState.FAILING, context.state)
 }
 
 fun validationCreateUidIsBlank(command: OsmsCommand, processor: OsmsBookingProcessor) = runTest {
-    val ctx = OsmsContext(
+    val context = OsmsContext(
         command = command,
         state = OsmsState.NONE,
         workMode = OsmsWorkMode.TEST,
@@ -61,23 +62,26 @@ fun validationCreateUidIsBlank(command: OsmsCommand, processor: OsmsBookingProce
             endTime = "2023-12-21T16:00:00",
         ),
     )
-    processor.exec(ctx)
 
-    assertEquals(5, ctx.errors.size)
-    assertEquals(OsmsState.FAILING, ctx.state)
+    processor.exec(context)
+
+    assertEquals(5, context.errors.size)
+    assertEquals(OsmsState.FAILING, context.state)
 }
 
 fun validationReadUidIsBlank(command: OsmsCommand, processor: OsmsBookingProcessor) = runTest {
-    val ctx = OsmsContext(
+    val context = OsmsContext(
         command = command,
         state = OsmsState.NONE,
         workMode = OsmsWorkMode.TEST,
         bookingRequest = OsmsBooking(
             bookingUid = OsmsBookingUid.NONE,
+            lock = OsmsBookingLock("123")
         ),
     )
-    processor.exec(ctx)
+    processor.exec(context)
 
-    assertEquals(1, ctx.errors.size)
-    assertEquals(OsmsState.FAILING, ctx.state)
+    assertEquals(1, context.errors.size)
+    assertEquals(OsmsState.FAILING, context.state)
+    assertEquals(context.errors.firstOrNull()?.group, "validation")
 }

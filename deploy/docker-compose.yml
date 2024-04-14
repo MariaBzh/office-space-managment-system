@@ -7,6 +7,7 @@ services:
       - "8080:8080"
     depends_on:
       - fluent-bit
+      - postgres
     volumes:
       - ./volumes/app:/app/etc
     logging:
@@ -42,7 +43,12 @@ services:
       - ./volumes/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "5432:5432"
-    restart: unless-stopped
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 60s
 
   dashboards:
     image: opensearchproject/opensearch-dashboards:latest

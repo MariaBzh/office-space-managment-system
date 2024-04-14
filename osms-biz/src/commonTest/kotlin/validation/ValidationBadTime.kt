@@ -29,6 +29,7 @@ fun validationBlankTimeAndFormatTime(command: OsmsCommand, processor: OsmsBookin
             workspaceUid = OsmsWorkspaceUid(VALID_UID),
             startTime = "",
             endTime = "9999-99-99T99:99:99.9999",
+            lock = OsmsBookingLock(LOCK),
         ),
     )
     processor.exec(ctx)
@@ -60,6 +61,7 @@ fun validationTimeIsInvalid(command: OsmsCommand, processor: OsmsBookingProcesso
             workspaceUid = OsmsWorkspaceUid(VALID_UID),
             startTime = "2024-02-01T10:00:00",
             endTime = "2024-01-01T10:00:00",
+            lock = OsmsBookingLock(LOCK),
         ),
     )
     processor.exec(ctx)
@@ -67,3 +69,5 @@ fun validationTimeIsInvalid(command: OsmsCommand, processor: OsmsBookingProcesso
     assertEquals(1, ctx.errors.size)
     assertEquals(OsmsState.FAILING, ctx.state)
 }
+
+private const val LOCK = "123"

@@ -11,6 +11,7 @@ sourceSets {
 
 openApiGenerate {
     val openapiGroup = "${rootProject.group}.api.v1"
+
     generatorName.set("kotlin") // генератор
     packageName.set(openapiGroup)
     apiPackage.set("$openapiGroup.api")

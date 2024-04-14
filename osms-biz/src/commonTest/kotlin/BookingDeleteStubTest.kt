@@ -13,7 +13,6 @@ import kotlin.test.assertEquals
 class BookingDeleteStubTest {
     @Test
     fun delete() = runTest {
-
         val context = OsmsContext(
             command = OsmsCommand.DELETE,
             state = OsmsState.NONE,

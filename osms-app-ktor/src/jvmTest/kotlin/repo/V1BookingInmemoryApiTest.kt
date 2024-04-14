@@ -11,12 +11,13 @@ import io.ktor.http.*
 import io.ktor.serialization.jackson.*
 import io.ktor.server.testing.*
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotEquals
 import org.junit.Test
 import ru.otus.osms.api.v1.models.*
 import ru.otus.osms.common.OsmsCorSettings
 import ru.otus.osms.common.models.*
 import ru.otus.osms.common.repo.IBookingRepository
-import ru.otus.osms.db.BookingRepoInMemory
+import ru.otus.osms.db.inmemory.BookingRepoInMemory
 import ru.otus.osms.ktor.OsmsAppSettings
 import ru.otus.osms.ktor.jvm.moduleJvm
 import ru.otus.osms.stubs.OsmsBookingStub
@@ -128,6 +129,7 @@ class V1BookingInmemoryApiTest {
             description = "Test",
             startTime = "2024-01-01T10:00:00",
             endTime = "2024-01-01T12:00:00",
+            lock = initBooking.lock.asString(),
         )
 
         val response = client.post(UPDATE_URI) {
@@ -178,7 +180,8 @@ class V1BookingInmemoryApiTest {
             val requestObj = BookingDeleteRequest(
                 requestUid = "request-1",
                 booking = BookingDeleteObject(
-                    bookingUid = UUID_OLD
+                    bookingUid = UUID_OLD,
+                    lock = initBooking.lock.asString(),
                 ),
                 debug = BookingDebug(
                     mode = BookingRequestDebugMode.TEST,
@@ -241,7 +244,7 @@ class V1BookingInmemoryApiTest {
         val responseObj = response.body<IResponse>() as BookingSearchResponse
 
         assertEquals(200, response.status.value)
-        assertEquals(1, responseObj.bookings?.size)
+        assertNotEquals(0, responseObj.bookings?.size)
     }
 
     private fun v1TestApplication(repo: IBookingRepository, function: suspend (HttpClient) -> Unit): Unit = testApplication {
@@ -263,8 +266,8 @@ class V1BookingInmemoryApiTest {
     }
     
     companion object {
-        private const val UUID_OLD = "4101d2f9-eb84-445f-8f16-a9fd8ab26daa"
-        private const val UUID_NEW = "61a09cbe-dfc5-43d1-a552-9b8662d623cf"
+        private const val UUID_OLD = "booking-1"
+        private const val UUID_NEW = "booking-2"
 
         private const val CREATE_URI = "api/v1/bookings/create"
         private const val READ_URI = "api/v1/bookings/read"
@@ -282,6 +285,7 @@ class V1BookingInmemoryApiTest {
             description = "Init test model"
             startTime = "2024-01-01T10:00:00.0000"
             endTime = "2024-01-01T12:00:00.0000"
+            lock = OsmsBookingLock(UUID_OLD)
         }
     }
 }

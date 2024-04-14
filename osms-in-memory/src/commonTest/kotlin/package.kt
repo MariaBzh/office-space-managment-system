@@ -1,2 +1,2 @@
-package ru.otus.osms.db.test
+package ru.otus.osms.db.inmemory.test
 

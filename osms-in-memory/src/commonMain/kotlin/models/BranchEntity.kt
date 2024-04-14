@@ -1,4 +1,4 @@
-package ru.otus.osms.db.models
+package ru.otus.osms.db.inmemory.models
 
 import ru.otus.osms.common.models.OsmsBranch
 import ru.otus.osms.common.models.OsmsBranchUid

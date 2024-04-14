@@ -138,8 +138,8 @@ class BookingCreateStubTest {
             officeUid = OsmsOfficeUid("office-1"),
             name = "Московский"
         )
-        private const val START_TIME = "2024-01-01 10:00:00.0000"
-        private const val END_TIME = "2024-01-01 11:00:00.0000"
+        private const val START_TIME = "2024-01-01T10:00:00.0000"
+        private const val END_TIME = "2024-01-01T11:00:00.0000"
         private val PERMISSIONS = mutableSetOf(
             OsmsBookingPermissions.READ,
             OsmsBookingPermissions.UPDATE,

@@ -26,13 +26,15 @@ abstract class RepoBookingReadTest {
 
         assertEquals(false, result.isSuccess)
         assertEquals(null, result.data)
+
         val error = result.errors.find { it.code == "not-found" }
+
         assertEquals("bookingUid", error?.field)
     }
 
-    companion object : BaseInitBookings("delete") {
+    companion object : BaseInitBookings() {
         override val initObjects: List<OsmsBooking> = listOf(
-            createInitTestModel(OsmsBookingUid("read"))
+            createInitTestModel(OsmsBookingUid("booking-1"))
         )
 
         val NOT_FOUND_UID = OsmsBookingUid("booking-1-not-found")

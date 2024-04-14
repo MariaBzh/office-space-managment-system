@@ -71,6 +71,7 @@ private fun OsmsBooking.toTransportBooking(): BookingResponseObject = BookingRes
     startTime = startTime.takeIf { it.isNotBlank() },
     endTime = endTime.takeIf { it.isNotBlank() },
     permissions = permissions.toTransportBooking(),
+    lock = lock.takeIf { it != OsmsBookingLock.NONE }?.asString(),
 )
 
 private fun Set<OsmsBookingPermissions>.toTransportBooking(): Set<BookingPermissions>? = this

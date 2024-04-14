@@ -1,4 +1,4 @@
-package ru.otus.osms.db.models
+package ru.otus.osms.db.inmemory.models
 
 import models.PermissionEntity
 import ru.otus.osms.common.models.*
@@ -14,6 +14,7 @@ data class BookingEntity (
     val floor: FloorEntity? = null,
     val office: OfficeEntity? = null,
     val permissions: Set<PermissionEntity>? = null,
+    val lock: String? = null,
 ) {
     constructor(booking: OsmsBooking): this(
         booking.bookingUid.asString(),
@@ -39,7 +40,8 @@ data class BookingEntity (
         ),
         booking.permissions
             .map { permissions -> PermissionEntity(permissions.name) }
-            .toSet()
+            .toSet(),
+        booking.lock.asString().takeIf { it.isNotBlank() }
     )
 
     fun toInternal() = OsmsBooking(
@@ -53,5 +55,6 @@ data class BookingEntity (
         floor = floor?.toInternal() ?: OsmsFloor.NONE,
         office = office?.toInternal() ?: OsmsOffice.NONE,
         permissions = permissions?.map { it.toInternal() }?.toSet() ?: setOf(OsmsBookingPermissions.READ),
+        lock = lock?.let { OsmsBookingLock(it) } ?: OsmsBookingLock.NONE,
     )
 }

@@ -279,7 +279,7 @@ class V1BookingMockApiTest {
         private const val DELETE_URI = "api/v1/bookings/delete"
         private const val SEARCH_URI = "api/v1/bookings/search"
 
-        private const val UUID = "4101d2f9-eb84-445f-8f16-a9fd8ab26daa"
+        private const val UUID = "booking-1"
 
         val INIT_DATA = OsmsBooking(
             bookingUid = OsmsBookingUid(UUID),

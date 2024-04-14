@@ -144,6 +144,9 @@ class OsmsBookingProcessor(
                     validateEndTimeFormat("Check if end time format is valid")
                     validateTime("Check if time range is valid")
 
+                    validateLockNotEmpty("Check if lock is not empty")
+                    validateLockProperFormat("Validate lock")
+
                     finishBookingValidation("Finish checks")
 
                     // worker("Clean booking UID") { bookingValidating.bookingUid = OsmsBookingUid.NONE }
@@ -176,6 +179,9 @@ class OsmsBookingProcessor(
 
                     validateBookingNotBlank("Check if 'bookingUid' is not blank")
                     validateBookingUid("Check if 'bookingUid' valid")
+
+                    validateLockNotEmpty("Check if lock is not empty")
+                    validateLockProperFormat("Validate lock")
 
                     finishBookingValidation("Finish checks")
 

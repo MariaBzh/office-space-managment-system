@@ -1,1 +1,1 @@
-package ru.otus.osms.db
+package ru.otus.osms.db.inmemory

@@ -1,6 +1,5 @@
-package ru.otus.osms.db.models
+package ru.otus.osms.db.inmemory.models
 
-import ru.otus.osms.common.models.OsmsBranchUid
 import ru.otus.osms.common.models.OsmsFloor
 import ru.otus.osms.common.models.OsmsFloorUid
 

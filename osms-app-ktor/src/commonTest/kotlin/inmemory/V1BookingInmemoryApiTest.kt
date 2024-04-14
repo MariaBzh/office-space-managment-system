@@ -8,13 +8,12 @@ import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.testing.*
-import kotlinx.serialization.encodeToString
 import ru.otus.osms.api.v1.kpm.apiV1Mapper
 import ru.otus.osms.api.v1.kpm.models.*
 import ru.otus.osms.common.OsmsCorSettings
 import ru.otus.osms.common.models.*
 import ru.otus.osms.common.repo.IBookingRepository
-import ru.otus.osms.db.BookingRepoInMemory
+import ru.otus.osms.db.inmemory.BookingRepoInMemory
 import ru.otus.osms.ktor.OsmsAppSettings
 import ru.otus.osms.ktor.module
 import ru.otus.osms.stubs.OsmsBookingStub
@@ -44,10 +43,7 @@ class V1BookingInmemoryApiTest {
                 )
             )
             contentType(ContentType.Application.Json)
-
-            val requestJson = apiV1Mapper.encodeToString(requestObj)
-
-            setBody(requestJson)
+            setBody(requestObj)
         }
 
         val responseText = response.bodyAsText()
@@ -82,9 +78,7 @@ class V1BookingInmemoryApiTest {
 
             contentType(ContentType.Application.Json)
 
-            val requestJson = apiV1Mapper.encodeToString(requestObj)
-
-            setBody(requestJson)
+            setBody(requestObj)
         }
 
         val responseObj = response.body<IResponse>() as BookingReadResponse
@@ -116,6 +110,7 @@ class V1BookingInmemoryApiTest {
             description = "Test",
             startTime = "2024-01-01T10:00:00",
             endTime = "2024-01-01T12:00:00",
+            lock = UID_OLD
         )
 
         val response = client.post(UPDATE_URI) {
@@ -126,9 +121,7 @@ class V1BookingInmemoryApiTest {
 
             contentType(ContentType.Application.Json)
 
-            val requestJson = apiV1Mapper.encodeToString(requestObj)
-
-            setBody(requestJson)
+            setBody(requestObj)
         }
 
         val responseObj = response.body<IResponse>() as BookingUpdateResponse
@@ -154,7 +147,8 @@ class V1BookingInmemoryApiTest {
             val requestObj = BookingDeleteRequest(
                 requestUid = "request-1",
                 booking = BookingDeleteObject(
-                   bookingUid = UID_OLD
+                    bookingUid = UID_OLD,
+                    lock = UID_OLD
                 ),
                 debug = BookingDebug(
                     mode = BookingRequestDebugMode.TEST,
@@ -163,9 +157,7 @@ class V1BookingInmemoryApiTest {
 
             contentType(ContentType.Application.Json)
 
-            val requestJson = apiV1Mapper.encodeToString(requestObj)
-
-            setBody(requestJson)
+            setBody(requestObj)
         }
 
         val responseObj = response.body<IResponse>() as BookingDeleteResponse
@@ -200,9 +192,7 @@ class V1BookingInmemoryApiTest {
 
             contentType(ContentType.Application.Json)
 
-            val requestJson = apiV1Mapper.encodeToString(requestObj)
-
-            setBody(requestJson)
+            setBody(requestObj)
         }
 
         val responseObj = response.body<IResponse>() as BookingSearchResponse
@@ -241,8 +231,9 @@ class V1BookingInmemoryApiTest {
             floor = OsmsFloor(OsmsFloorUid("floor-1"), "1","Floor")
             office = OsmsOffice(OsmsOfficeUid("office-1"), "Office")
             description = "Init test model"
-            startTime = "2024-01-01T10:00:00.0000"
-            endTime = "2024-01-01T12:00:00.0000"
+            startTime = "2024-01-01T10:00:00"
+            endTime = "2024-01-01T12:00:00"
+            lock = OsmsBookingLock(UID_OLD)
         }
     }
 }
