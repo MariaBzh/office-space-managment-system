@@ -9,6 +9,7 @@ data class OsmsContext(
     var state: OsmsState = OsmsState.NONE,
 
     val errors: MutableList<OsmsError> = mutableListOf(),
+    var corSettings: OsmsCorSettings = OsmsCorSettings(),
 
     var workMode: OsmsWorkMode = OsmsWorkMode.TEST,
     var stubCase: OsmsStub = OsmsStub.NONE,
@@ -19,4 +20,10 @@ data class OsmsContext(
     var bookingResponse: OsmsBooking = OsmsBooking(),
 
     val bookingsResponse: MutableList<OsmsBooking> = mutableListOf(),
+
+    var bookingValidating: OsmsBooking = OsmsBooking(),
+    var bookingFilterValidating: OsmsBookingSearchFilter = OsmsBookingSearchFilter(),
+
+    var bookingValidated: OsmsBooking = OsmsBooking(),
+    var bookingFilterValidated: OsmsBookingSearchFilter = OsmsBookingSearchFilter(),
 )

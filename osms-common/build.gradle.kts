@@ -9,7 +9,6 @@ kotlin {
     jvm {}
     macosX64 {}
     linuxX64 {}
-    macosArm64 { }
 
     sourceSets {
         val datetimeVersion: String by project
@@ -19,6 +18,7 @@ kotlin {
                 implementation(kotlin("stdlib-common"))
 
                 api("org.jetbrains.kotlinx:kotlinx-datetime:$datetimeVersion")
+                api(project(":osms-logging-common"))
             }
         }
         val commonTest by getting {

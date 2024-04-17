@@ -19,6 +19,7 @@ kotlin {
 
                 implementation(project(":osms-common"))
                 implementation(project(":osms-stubs"))
+                implementation(project(":osms-cor"))
             }
         }
         commonTest {

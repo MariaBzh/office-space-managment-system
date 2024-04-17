@@ -11,5 +11,21 @@ data class OsmsBooking(
     var startTime: String = "",
     var endTime: String = "",
     var lock: OsmsBookingLock = OsmsBookingLock.NONE,
-    val permissions: Set<OsmsBookingPermissions> = mutableSetOf(),
-)
+    var permissions: Set<OsmsBookingPermissions> = mutableSetOf(),
+) {
+    fun deepCopy(): OsmsBooking = copy(
+        bookingUid = OsmsBookingUid(bookingUid.asString()),
+        userUid = OsmsUserUid(userUid.asString()),
+        workspaceUid = OsmsWorkspaceUid(workspaceUid.asString()),
+        branch = branch.copy(
+            branchUid = OsmsBranchUid(branch.branchUid.asString())
+        ),
+        floor = floor.copy(
+            floorUid = OsmsFloorUid(floor.floorUid.asString())
+        ),
+        office = office.copy(
+            officeUid = OsmsOfficeUid(office.officeUid.asString())
+        ),
+        permissions = permissions.toMutableSet(),
+    )
+}

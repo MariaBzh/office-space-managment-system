@@ -2,24 +2,24 @@ package ru.otus.osms.ktor.v1
 
 import io.ktor.server.application.*
 import io.ktor.server.routing.*
-import ru.otus.osms.biz.OsmsBookingProcessor
+import ru.otus.osms.ktor.OsmsAppSettings
 
-fun Route.v1Booking(processor: OsmsBookingProcessor) {
+fun Route.v1Booking(appSettings: OsmsAppSettings) {
     route("bookings") {
         post("create") {
-            call.createBooking(processor)
+            call.createBooking(appSettings)
         }
         post("read") {
-            call.readBooking(processor)
+            call.readBooking(appSettings)
         }
         post("update") {
-            call.updateBooking(processor)
+            call.updateBooking(appSettings)
         }
         post("delete") {
-            call.deleteBooking(processor)
+            call.deleteBooking(appSettings)
         }
         post("search") {
-            call.searchBooking(processor)
+            call.searchBooking(appSettings)
         }
     }
 }

@@ -21,6 +21,7 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
     implementation("io.github.microutils:kotlin-logging-jvm:$kotlinLoggingJvmVersion")
 
+    implementation(project(":osms-app-common"))
     implementation(project(":osms-common"))
     implementation(project(":osms-api-v1-jackson"))
     implementation(project(":osms-api-v1-kmp"))

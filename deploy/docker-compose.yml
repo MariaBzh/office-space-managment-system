@@ -12,12 +12,14 @@ services:
       - "8080:8080"
     depends_on:
       - fluent-bit
-    # volumes:
+    volumes:
+      - ./volumes/app:/app/etc
     logging:
       driver: "fluentd"
       options:
         fluentd-address: localhost:24224
         tag: app.logs
+
 
   fluent-bit:
     container_name: fluent-bit

@@ -2,6 +2,7 @@ package ru.otus.osms.stubs
 
 import ru.otus.osms.common.models.*
 import ru.otus.osms.common.stubs.OsmsStub
+import ru.otus.osms.stubs.OsmsBookingStubBolts.BOOKING_DB_ERROR
 import ru.otus.osms.stubs.OsmsBookingStubBolts.BOOKING_ERROR_BAD_TIME
 import ru.otus.osms.stubs.OsmsBookingStubBolts.BOOKING_ERROR_BAD_UID
 import ru.otus.osms.stubs.OsmsBookingStubBolts.BOOKING_ERROR_NOT_FOUND
@@ -32,13 +33,16 @@ object OsmsBookingStub {
             OsmsStub.NOT_FOUND.name -> BOOKING_ERROR_NOT_FOUND.copy()
             OsmsStub.BAD_UID.name -> BOOKING_ERROR_BAD_UID.copy()
             OsmsStub.BAD_TIME.name -> BOOKING_ERROR_BAD_TIME.copy()
+            OsmsStub.DB_ERROR.name -> BOOKING_DB_ERROR.copy()
             else -> { BOOKING_ERROR_NOT_FOUND.copy() }
         }
 
 
     fun prepareResult(block: OsmsBooking.() -> Unit): OsmsBooking = get().apply(block)
 
-    fun prepareSearchList() = listOf(
+    fun prepareSearchList(
+        userUid: String? = "user-1",
+    ) = listOf(
         osmsBooking(
             base = BOOKING_READ,
             bookingUid = "booking-1",
@@ -46,8 +50,8 @@ object OsmsBookingStub {
             workspaceUid = "workspace-1",
             branch = BRANCH_A,
             floor = FLOOR_1,
-            startTime = "2024-01-01 10:00:00.0000",
-            endTime = "2024-01-01 10:40:00.0000"
+            startTime = "2024-01-01T10:00:00.0000",
+            endTime = "2024-01-01T10:40:00.0000"
         ),
         osmsBooking(
             base = BOOKING_READ,
@@ -56,8 +60,8 @@ object OsmsBookingStub {
             workspaceUid = "workspace-2",
             branch = BRANCH_B,
             floor = FLOOR_1,
-            startTime = "2024-01-01 11:30:00.0000",
-            endTime = "2024-01-01 13:30:00.0000"
+            startTime = "2024-01-01T11:30:00.0000",
+            endTime = "2024-01-01T13:30:00.0000"
         ),
         osmsBooking(
             base = BOOKING_READ,
@@ -66,8 +70,8 @@ object OsmsBookingStub {
             workspaceUid = "workspace-3",
             branch = BRANCH_C,
             floor = FLOOR_2,
-            startTime = "2024-01-01 09:40:00.0000",
-            endTime = "2024-01-01 11:45:00.0000",
+            startTime = "2024-01-01T09:40:00.0000",
+            endTime = "2024-01-01T11:45:00.0000",
         ),
         osmsBooking(
             base = BOOKING_READ,
@@ -76,8 +80,8 @@ object OsmsBookingStub {
             workspaceUid = "workspace-2",
             branch = BRANCH_B,
             floor = FLOOR_1,
-            startTime = "2024-01-01 14:35:00.0000",
-            endTime = "2024-01-01 15:35:00.0000",
+            startTime = "2024-01-01T14:35:00.0000",
+            endTime = "2024-01-01T15:35:00.0000",
         ),
         osmsBooking(
             base = BOOKING_READ,
@@ -86,8 +90,8 @@ object OsmsBookingStub {
             workspaceUid = "workspace-4",
             branch = BRANCH_A,
             floor = FLOOR_2,
-            startTime = "2024-01-01 16:00:00.0000",
-            endTime = "2024-01-01 17:00:00.0000",
+            startTime = "2024-01-01T16:00:00.0000",
+            endTime = "2024-01-01T17:00:00.0000",
         ),
         osmsBooking(
             base = BOOKING_READ,
@@ -96,10 +100,10 @@ object OsmsBookingStub {
             workspaceUid = "workspace-5",
             branch = BRANCH_C,
             floor = FLOOR_3,
-            startTime = "2024-01-01 11:45:00.0000",
-            endTime = "2024-01-01 14:55:00.0000",
+            startTime = "2024-01-01T11:45:00.0000",
+            endTime = "2024-01-01T14:55:00.0000",
         ),
-    )
+    ).filter { it.userUid.asString() == userUid }.toList()
 
     private fun osmsBooking(
         base: OsmsBooking,

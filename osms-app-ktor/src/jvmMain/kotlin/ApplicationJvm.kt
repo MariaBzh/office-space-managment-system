@@ -10,15 +10,15 @@ import io.ktor.server.plugins.defaultheaders.*
 import io.ktor.server.routing.*
 import org.slf4j.event.Level
 import ru.otus.osms.api.v1.jackson.apiV1Mapper
-import ru.otus.osms.biz.OsmsBookingProcessor
-import ru.otus.osms.ktor.module
+import ru.otus.osms.ktor.OsmsAppSettings
 import ru.otus.osms.ktor.jvm.v1.v1Booking
+import ru.otus.osms.ktor.module
+import ru.otus.osms.ktor.plugins.initAppSettings
 
 fun main(args: Array<String>): Unit = io.ktor.server.cio.EngineMain.main(args)
 
 @Suppress("unused")
-fun Application.moduleJvm() {
-    val processor = OsmsBookingProcessor()
+fun Application.moduleJvm(appSettings: OsmsAppSettings = initAppSettings()) {
 
     install(CachingHeaders)
     install(DefaultHeaders)
@@ -26,7 +26,7 @@ fun Application.moduleJvm() {
     install(CallLogging) {
         level = Level.INFO
     }
-    module(processor)
+    module(appSettings)
 
     routing {
         route("api/v1") {
@@ -37,7 +37,7 @@ fun Application.moduleJvm() {
                 }
             }
 
-            v1Booking(processor)
+            v1Booking(appSettings)
         }
     }
 }

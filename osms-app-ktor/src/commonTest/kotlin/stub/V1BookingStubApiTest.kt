@@ -35,8 +35,8 @@ class V1BookingStubApiTest {
                     name = "Московский"
                 ),
                 workspaceUid = "workspace-1",
-                startTime = "2024-01-01 10:00:00.0000",
-                endTime = "2024-01-01 11:00:00.0000",
+                startTime = "2024-01-01T10:00:00.0000",
+                endTime = "2024-01-01T11:00:00.0000",
             ),
             debug = BookingDebug(
                 mode = BookingRequestDebugMode.STUB,
@@ -49,7 +49,7 @@ class V1BookingStubApiTest {
             setBody(requestObj)
         }
 
-        val responseObj = response.body<BookingCreateResponse>()
+        val responseObj = response.body<IResponse>() as BookingCreateResponse
 
         assertEquals(200, response.status.value)
         assertEquals("booking-3000", responseObj.booking?.bookingUid)
@@ -72,7 +72,7 @@ class V1BookingStubApiTest {
             setBody(requestObj)
         }
 
-        val responseObj = response.body<BookingReadResponse>()
+        val responseObj = response.body<IResponse>() as BookingReadResponse
 
         assertEquals(200, response.status.value)
         assertEquals(requestObj.booking?.bookingUid, responseObj.booking?.bookingUid)
@@ -98,8 +98,8 @@ class V1BookingStubApiTest {
                     name = "Московский"
                 ),
                 workspaceUid = "workspace-1",
-                startTime = "2024-01-01 12:00:00.0000",
-                endTime = "2024-01-01 13:00:00.0000"
+                startTime = "2024-01-01T10:00:00.0000",
+                endTime = "2024-01-01T11:00:00.0000",
             ),
             debug = BookingDebug(
                 mode = BookingRequestDebugMode.STUB,
@@ -112,7 +112,7 @@ class V1BookingStubApiTest {
             setBody(requestObj)
         }
 
-        val responseObj = response.body<BookingUpdateResponse>()
+        val responseObj = response.body<IResponse>() as BookingUpdateResponse
 
         assertEquals(200, response.status.value)
         assertEquals(requestObj.booking?.bookingUid, responseObj.booking?.bookingUid)
@@ -138,7 +138,7 @@ class V1BookingStubApiTest {
             setBody(requestObj)
         }
 
-        val responseObj = response.body<BookingDeleteResponse>()
+        val responseObj = response.body<IResponse>() as BookingDeleteResponse
 
         assertEquals(200, response.status.value)
         assertEquals(requestObj.booking?.bookingUid, responseObj.booking?.bookingUid)
@@ -159,9 +159,11 @@ class V1BookingStubApiTest {
             contentType(ContentType.Application.Json)
             setBody(requestObj)
         }
-        val responseObj = response.body<BookingSearchResponse>()
+
+        val responseObj = response.body<IResponse>() as BookingSearchResponse
+
         assertEquals(200, response.status.value)
-        assertEquals(6, responseObj.bookings?.size)
+        assertEquals(1, responseObj.bookings?.size)
     }
 
     @Test
@@ -180,7 +182,7 @@ class V1BookingStubApiTest {
             setBody(requestObj)
         }
 
-        val responseObj = response.body<BookingReadResponse>()
+        val responseObj = response.body<IResponse>() as BookingReadResponse
 
         assertEquals(200, response.status.value)
         assertNotNull(responseObj.errors)
@@ -203,7 +205,7 @@ class V1BookingStubApiTest {
             setBody(requestObj)
         }
 
-        val responseObj = response.body<BookingReadResponse>()
+        val responseObj = response.body<IResponse>() as BookingReadResponse
 
         assertEquals(200, response.status.value)
         assertNotNull(responseObj.errors)
@@ -230,8 +232,8 @@ class V1BookingStubApiTest {
                     name = "Московский"
                 ),
                 workspaceUid = "workspace-1",
-                startTime = "2024-01-01 13:00:00.0000",
-                endTime = "2024-01-01 11:00:00.0000",
+                startTime = "2024-01-01T13:00:00.0000",
+                endTime = "2024-01-01T11:00:00.0000",
             ),
             debug = BookingDebug(
                 mode = BookingRequestDebugMode.STUB,
@@ -244,7 +246,7 @@ class V1BookingStubApiTest {
             setBody(requestObj)
         }
 
-        val responseObj = response.body<BookingReadResponse>()
+        val responseObj = response.body<IResponse>() as BookingCreateResponse
 
         assertEquals(200, response.status.value)
         assertNotNull(responseObj.errors)

@@ -16,35 +16,35 @@ fun OsmsContext.toTransportBooking(): IResponse = when (val command = command) {
 
 fun OsmsContext.toTransportCreate() = BookingCreateResponse(
     requestUid = this.requestUid.asString().takeIf { it.isNotBlank() },
-    result = if (state == OsmsState.RUNNING) ResponseResult.SUCCESS else ResponseResult.ERROR,
+    result = state.toResult(),
     errors = errors.toTransportErrors(),
     booking = bookingResponse.toTransportBooking()
 )
 
 fun OsmsContext.toTransportRead() = BookingReadResponse(
     requestUid = this.requestUid.asString().takeIf { it.isNotBlank() },
-    result = if (state == OsmsState.RUNNING) ResponseResult.SUCCESS else ResponseResult.ERROR,
+    result = state.toResult(),
     errors = errors.toTransportErrors(),
     booking = bookingResponse.toTransportBooking()
 )
 
 fun OsmsContext.toTransportUpdate() = BookingUpdateResponse(
     requestUid = this.requestUid.asString().takeIf { it.isNotBlank() },
-    result = if (state == OsmsState.RUNNING) ResponseResult.SUCCESS else ResponseResult.ERROR,
+    result = state.toResult(),
     errors = errors.toTransportErrors(),
     booking = bookingResponse.toTransportBooking()
 )
 
 fun OsmsContext.toTransportDelete() = BookingDeleteResponse(
     requestUid = this.requestUid.asString().takeIf { it.isNotBlank() },
-    result = if (state == OsmsState.RUNNING) ResponseResult.SUCCESS else ResponseResult.ERROR,
+    result = state.toResult(),
     errors = errors.toTransportErrors(),
     booking = bookingResponse.toTransportBooking()
 )
 
 fun OsmsContext.toTransportSearch() = BookingSearchResponse(
     requestUid = this.requestUid.asString().takeIf { it.isNotBlank() },
-    result = if (state == OsmsState.RUNNING) ResponseResult.SUCCESS else ResponseResult.ERROR,
+    result = state.toResult(),
     errors = errors.toTransportErrors(),
     bookings = bookingsResponse.toTransportBooking()
 )
@@ -56,7 +56,7 @@ fun List<OsmsBooking>.toTransportBooking(): List<BookingResponseObject>? = this
 
 fun OsmsContext.toTransportInit() = BookingInitResponse(
     requestUid = this.requestUid.asString().takeIf { it.isNotBlank() },
-    result = if (errors.isEmpty()) ResponseResult.SUCCESS else ResponseResult.ERROR,
+    result = state.toResult(),
     errors = errors.toTransportErrors(),
 )
 
@@ -113,3 +113,9 @@ private fun OsmsOffice.toTransportOffice() = Office(
     name = name.takeIf { it.isNotBlank() },
     description = description.takeIf { it.isNotBlank() },
 )
+
+private fun OsmsState.toResult(): ResponseResult? = when (this) {
+    OsmsState.RUNNING, OsmsState.FINISHING -> ResponseResult.SUCCESS
+    OsmsState.FAILING -> ResponseResult.ERROR
+    OsmsState.NONE -> null
+}

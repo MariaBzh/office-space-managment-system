@@ -262,8 +262,8 @@ class MapperTest {
                     name = "Марс"
                 ),
                 workspaceUid = UUID.randomUUID().toString(),
-                startTime = "2023-12-21 10:00:00.000",
-                endTime = "2023-12-21 16:00:00.000",
+                startTime = "2023-12-21T10:00:00.000",
+                endTime = "2023-12-21T16:00:00.000",
             )
         )
 
@@ -300,8 +300,8 @@ class MapperTest {
                     name = "Марс"
                 ),
                 workspaceUid = UUID.randomUUID().toString(),
-                startTime = "2023-12-21 10:00:00.000",
-                endTime = "2023-12-21 16:00:00.000",
+                startTime = "2023-12-21T10:00:00.000",
+                endTime = "2023-12-21T16:00:00.000",
             )
         )
 
@@ -337,8 +337,8 @@ class MapperTest {
                     name = "Марс"
                 ),
                 workspaceUid = UUID.randomUUID().toString(),
-                startTime = "2023-12-21 10:00:00.000",
-                endTime = "2023-12-21 16:00:00.000",
+                startTime = "2023-12-21T10:00:00.000",
+                endTime = "2023-12-21T16:00:00.000",
             )
         )
 
@@ -370,8 +370,8 @@ class MapperTest {
                     officeUid = OsmsOfficeUid(UUID.randomUUID().toString()),
                     name = "Марс"
                 ),
-                startTime = "2023-12-21 10:00:00.000",
-                endTime = "2023-12-21 16:00:00.000",
+                startTime = "2023-12-21T10:00:00.000",
+                endTime = "2023-12-21T16:00:00.000",
                 permissions = mutableSetOf(
                     OsmsBookingPermissions.READ,
                     OsmsBookingPermissions.UPDATE,
@@ -415,8 +415,8 @@ class MapperTest {
                     officeUid = OsmsOfficeUid(UUID.randomUUID().toString()),
                     name = "Марс"
                 ),
-                startTime = "2023-12-21 10:00:00.000",
-                endTime = "2023-12-21 16:00:00.000",
+                startTime = "2023-12-21T10:00:00.000",
+                endTime = "2023-12-21T16:00:00.000",
                 permissions = mutableSetOf(
                     OsmsBookingPermissions.READ,
                     OsmsBookingPermissions.UPDATE,
@@ -446,8 +446,8 @@ class MapperTest {
                     officeUid = OsmsOfficeUid(UUID.randomUUID().toString()),
                     name = "Марс"
                 ),
-                startTime = "2023-12-21 10:00:00.000",
-                endTime = "2023-12-21 16:00:00.000",
+                startTime = "2023-12-21T10:00:00.000",
+                endTime = "2023-12-21T16:00:00.000",
                 permissions = mutableSetOf(
                     OsmsBookingPermissions.READ,
                     OsmsBookingPermissions.UPDATE,
@@ -477,8 +477,8 @@ class MapperTest {
                     officeUid = OsmsOfficeUid(UUID.randomUUID().toString()),
                     name = "Марс"
                 ),
-                startTime = "2023-12-21 10:00:00.000",
-                endTime = "2023-12-21 16:00:00.000",
+                startTime = "2023-12-21T10:00:00.000",
+                endTime = "2023-12-21T16:00:00.000",
                 permissions = mutableSetOf(
                     OsmsBookingPermissions.READ,
                     OsmsBookingPermissions.UPDATE,
@@ -509,8 +509,8 @@ class MapperTest {
                         officeUid = OsmsOfficeUid("497c568c-8e6b-45ff-9b94-4840c5d05e2b"),
                         name = "Марс"
                     ),
-                    startTime = "2023-12-21 10:00:00.000",
-                    endTime = "2023-12-21 16:00:00.000",
+                    startTime = "2023-12-21T10:00:00.000",
+                    endTime = "2023-12-21T16:00:00.000",
                 )
             ),
             state = OsmsState.RUNNING,

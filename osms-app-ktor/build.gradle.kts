@@ -64,12 +64,18 @@ kotlin {
                 implementation(ktorServer("content-negotiation"))
 
                 implementation(project(":osms-common"))
+                implementation(project(":osms-app-common"))
                 implementation(project(":osms-biz"))
 
                 implementation(project(":osms-api-v1-kmp"))
                 implementation(project(":osms-mappers-kmp-v1"))
 
                 implementation(project(":osms-stubs"))
+
+                implementation(project(":osms-api-log"))
+                implementation(project(":osms-mappers-log"))
+                implementation(project(":osms-logging-common"))
+                implementation(project(":osms-logging-kermit"))
 
                 implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:$serializationVersion")
