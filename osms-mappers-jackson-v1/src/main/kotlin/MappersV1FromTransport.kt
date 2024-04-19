@@ -52,7 +52,6 @@ fun OsmsContext.fromTransport(request: BookingReadRequest) {
     command = OsmsCommand.READ
     requestUid = request.requestUid()
     bookingRequest = request.booking.toInternal()
-    // bookingRequest = request.booking?.bookingUid.toBookingWithUid()
     workMode = request.debug.transportToWorkMode()
     stubCase = request.debug.transportToStubCase()
 }
@@ -75,7 +74,6 @@ fun OsmsContext.fromTransport(request: BookingDeleteRequest) {
     command = OsmsCommand.DELETE
     requestUid = request.requestUid()
     bookingRequest = request.booking.toInternal()
-    // bookingRequest = request.booking?.bookingUid.toBookingWithUid()
     workMode = request.debug.transportToWorkMode()
     stubCase = request.debug.transportToStubCase()
 }

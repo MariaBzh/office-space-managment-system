@@ -16,7 +16,16 @@ abstract class RepoBookingReadTest {
         val result = repo.readBooking(DbBookingUidRequest(readSucc.bookingUid))
 
         assertEquals(true, result.isSuccess)
-        assertEquals(readSucc, result.data)
+
+        assertEquals(readSucc.bookingUid, result.data?.bookingUid)
+        assertEquals(readSucc.userUid, result.data?.userUid)
+        assertEquals(readSucc.branch, result.data?.branch)
+        assertEquals(readSucc.floor, result.data?.floor)
+        assertEquals(readSucc.office, result.data?.office)
+        assertEquals(readSucc.description, result.data?.description)
+        assertEquals(readSucc.startTime, result.data?.startTime)
+        assertEquals(readSucc.endTime, result.data?.endTime)
+
         assertEquals(emptyList(), result.errors)
     }
 

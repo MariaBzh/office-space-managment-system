@@ -7,6 +7,8 @@ import ru.otus.osms.common.helpers.asOsmsError
 import ru.otus.osms.common.models.*
 import ru.otus.osms.common.repo.*
 import ru.otus.osms.repo.Osms
+import ru.otus.osms.repo.pg.mappers.toOsmsBooking
+import ru.otus.osms.repo.pg.mappers.toOsmsBookings
 import java.sql.DriverManager
 import java.time.LocalDateTime
 
@@ -23,9 +25,10 @@ class RepoBookingSQL(
     private val usersTable = Osms.OSMS.USERS
     private val refBookingUserPermission = Osms.OSMS.REF_BOOKING_USER_PERMISSION
 
-    private val connection = DriverManager.getConnection(properties.url, properties.user, properties.password)
-
-    private val jooqContext = DSL.using(connection, SQLDialect.POSTGRES)
+    private val jooqContext = DSL.using(
+        DriverManager.getConnection(properties.url, properties.user, properties.password),
+        SQLDialect.POSTGRES
+    )
 
     private fun getPermissionByName(name: String): Int? {
         val record = jooqContext.selectFrom(permissionTable)

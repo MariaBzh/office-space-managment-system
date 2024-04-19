@@ -18,7 +18,7 @@ class OsmsBookingProcessor(
         @Suppress("unused")
         private val corSettings: OsmsCorSettings = OsmsCorSettings.NONE
 ) {
-    suspend fun exec(ctx: OsmsContext) = BusinessChain.exec(ctx.also { it.corSettings = corSettings })
+    suspend fun exec(context: OsmsContext) = BusinessChain.exec(context.also { it.corSettings = corSettings })
 
     companion object {
         private val BusinessChain = rootChain {
@@ -60,14 +60,6 @@ class OsmsBookingProcessor(
                     validateTime("Check if time range is valid")
 
                     finishBookingValidation("Finish checks")
-
-                    // worker("Clean user UID") { bookingValidating.userUid = OsmsUserUid.NONE }
-                    // worker("Clean workplace UID") { bookingValidating.workspaceUid = OsmsWorkspaceUid.NONE }
-                    // worker("Clean branch") { bookingValidating.branch = OsmsBranch.NONE }
-                    // worker("Clean floor") { bookingValidating.floor = OsmsFloor.NONE }
-                    // worker("Clean office") { bookingValidating.office = OsmsOffice.NONE }
-                    // worker("Clean start time") { bookingValidating.startTime = "" }
-                    // worker("Clean end time") { bookingValidating.endTime = "" }
                 }
                 chain {
                     title = "Логика сохранения"
@@ -91,8 +83,6 @@ class OsmsBookingProcessor(
                     validateBookingUid("Check if 'bookingUid' valid")
 
                     finishBookingValidation("Finish checks")
-
-                    // worker("Clean bookingUid") { bookingValidating.bookingUid = OsmsBookingUid.NONE }
                 }
                 chain {
                     title = "Логика чтения"
@@ -148,15 +138,6 @@ class OsmsBookingProcessor(
                     validateLockProperFormat("Validate lock")
 
                     finishBookingValidation("Finish checks")
-
-                    // worker("Clean booking UID") { bookingValidating.bookingUid = OsmsBookingUid.NONE }
-                    // worker("Clean user UID") { bookingValidating.userUid = OsmsUserUid.NONE }
-                    // worker("Clean workplace UID") { bookingValidating.workspaceUid = OsmsWorkspaceUid.NONE }
-                    // worker("Clean branch") { bookingValidating.branch = OsmsBranch.NONE }
-                    // worker("Clean floor") { bookingValidating.floor = OsmsFloor.NONE }
-                    // worker("Clean office") { bookingValidating.office = OsmsOffice.NONE }
-                    // worker("Clean start time") { bookingValidating.startTime = "" }
-                    // worker("Clean end time") { bookingValidating.endTime = "" }
                 }
                 chain {
                     title = "Логика сохранения"
@@ -184,8 +165,6 @@ class OsmsBookingProcessor(
                     validateLockProperFormat("Validate lock")
 
                     finishBookingValidation("Finish checks")
-
-                    // worker("Clean 'booking UID'") { bookingValidating.bookingUid = OsmsBookingUid.NONE }
                 }
                 chain {
                     title = "Логика удаления"

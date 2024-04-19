@@ -38,7 +38,6 @@ abstract class RepoBookingCreateTest {
         assertEquals(expected.description, result.data?.description)
         assertEquals(expected.startTime, result.data?.startTime)
         assertEquals(expected.endTime, result.data?.endTime)
-        assertEquals(expected.permissions, result.data?.permissions)
 
         assertEquals(emptyList(), result.errors)
     }

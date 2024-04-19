@@ -2,14 +2,21 @@ version: '3'
 services:
 
   app:
-    build: .
-    ports:
-      - "8080:8080"
+    container_name: osms-app
+    image: osms-app-ktor
     depends_on:
       - fluent-bit
-      - postgres
+      - postgresql
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 2
+    ports:
+      - "8080:8080"
     volumes:
       - ./volumes/app:/app/etc
+    environment:
+      - PG_URL=jdbc:postgresql://postgresql:5432/osms
     logging:
       driver: "fluentd"
       options:
@@ -31,9 +38,9 @@ services:
       - ./volumes/fluent-bit-etc/fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf
       - ./volumes/fluent-bit-etc/parsers.conf:/fluent-bit/etc/parsers.conf
 
-  postgres:
-    container_name: postgresql-osms
-    image: postgres:latest
+  postgresql:
+    container_name: postgresql
+    image: postgres:16
     environment:
       POSTGRES_DB: osms
       POSTGRES_USER: osms-app
@@ -49,39 +56,3 @@ services:
         delay: 5s
         max_attempts: 3
         window: 60s
-
-  dashboards:
-    image: opensearchproject/opensearch-dashboards:latest
-    container_name: opensearch-dashboards
-    ports:
-      - 5601:5601
-    expose:
-      - "5601"
-    environment:
-      OPENSEARCH_HOSTS: '["https://opensearch:9200"]'
-    depends_on:
-      - opensearch
-
-  opensearch:
-    container_name: opensearch
-    image: opensearchproject/opensearch:latest
-    environment:
-      - discovery.type=single-node
-      - http.port=9200
-      - bootstrap.memory_lock=true
-      - ES_JAVA_OPTS=-Xms512m -Xmx512m
-    ports:
-      - '9200:9200'
-      - '9600:9600'
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-      nofile:
-        soft: 65536
-        hard: 65536
-    volumes:
-      - opensearch-data:/usr/share/opensearch/data
-
-volumes:
-  opensearch-data:

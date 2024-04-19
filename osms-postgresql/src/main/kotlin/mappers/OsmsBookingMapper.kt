@@ -1,4 +1,4 @@
-package ru.otus.osms.repo.pg
+package ru.otus.osms.repo.pg.mappers
 
 import org.jooq.Record
 import org.jooq.Result
@@ -14,28 +14,28 @@ fun Result<Record>.toOsmsBooking(
     permissionTable: Permission,
 ) = if (isNotEmpty) {
         OsmsBooking(
-            OsmsBookingUid(getValues(bookingTable.BOOKING_UID)[0]!!),
-            OsmsUserUid(getValues(bookingTable.USER_UID)[0]!!),
-            OsmsWorkspaceUid(getValues(bookingTable.WORKPLACE_UID)[0]!!),
+            OsmsBookingUid(getValues(bookingTable.BOOKING_UID).firstOrNull() ?: ""),
+            OsmsUserUid(getValues(bookingTable.USER_UID).firstOrNull() ?: ""),
+            OsmsWorkspaceUid(getValues(bookingTable.WORKPLACE_UID).firstOrNull() ?: ""),
             OsmsBranch(
-                OsmsBranchUid(getValues(bookingTable.BRANCH_UID)[0]!!),
-                getValues(branchTable.NAME)[0]!!,
-                getValues(branchTable.DESCRIPTION)[0] ?: "",
+                OsmsBranchUid(getValues(bookingTable.BRANCH_UID).firstOrNull() ?: ""),
+                getValues(branchTable.NAME).firstOrNull() ?: "",
+                getValues(branchTable.DESCRIPTION).firstOrNull() ?: "",
             ),
             OsmsFloor(
-                OsmsFloorUid(getValues(bookingTable.FLOOR_UID)[0]!!),
-                getValues(floorTable.LEVEL)[0]!!,
-                getValues(floorTable.DESCRIPTION)[0] ?: "",
+                OsmsFloorUid(getValues(bookingTable.FLOOR_UID).firstOrNull() ?: ""),
+                getValues(floorTable.LEVEL).firstOrNull() ?: "",
+                getValues(floorTable.DESCRIPTION).firstOrNull() ?: "",
             ),
             OsmsOffice(
-                OsmsOfficeUid(getValues(bookingTable.OFFICE_UID)[0]!!),
-                getValues(officeTable.NAME)[0]!!,
-                getValues(officeTable.DESCRIPTION)[0] ?: "",
+                OsmsOfficeUid(getValues(bookingTable.OFFICE_UID).firstOrNull() ?: ""),
+                getValues(officeTable.NAME).firstOrNull() ?: "",
+                getValues(officeTable.DESCRIPTION).firstOrNull() ?: "",
             ),
-            getValues(bookingTable.DESCRIPTION)[0] ?: "",
-            getValues(bookingTable.STARTTIME)[0]!!.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
-            getValues(bookingTable.ENDTIME)[0]!!.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
-            getValues(bookingTable.LOCK)[0]?.let { OsmsBookingLock(it) } ?: OsmsBookingLock.NONE,
+            getValues(bookingTable.DESCRIPTION).firstOrNull() ?: "",
+            getValues(bookingTable.STARTTIME).first()?.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) ?: "",
+            getValues(bookingTable.ENDTIME).first()?.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) ?: "",
+            getValues(bookingTable.LOCK).first()?.let { OsmsBookingLock(it) } ?: OsmsBookingLock.NONE,
             getValues(permissionTable.NAME).map {
                 ru.otus.osms.common.models.OsmsBookingPermissions.valueOf(it!!)
             }.toSet()

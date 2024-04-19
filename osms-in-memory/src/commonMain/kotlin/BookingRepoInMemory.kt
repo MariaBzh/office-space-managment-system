@@ -28,20 +28,6 @@ class BookingRepoInMemory(
         }
     }
 
-//    private suspend fun doUpdate(key: String, oldLock: String, okBlock: (oldBooking: BookingEntity) -> DbBookingResponse): DbBookingResponse = mutex.withLock {
-//        val oldBooking = cache.get(key)
-//        when {
-//            oldBooking == null -> resultErrorNotFound
-//            oldBooking.lock != oldLock -> DbBookingResponse(
-//                data = oldBooking.toInternal(),
-//                isSuccess = false,
-//                errors = listOf(errorRepoConcurrency(OsmsBookingLock(oldLock), oldBooking.lock?.let { OsmsBookingLock(it) }))
-//            )
-//
-//            else -> okBlock(oldBooking)
-//        }
-//    }
-
     private suspend fun doUpdate(
         bookingUid: OsmsBookingUid,
         oldLock: OsmsBookingLock,
@@ -73,7 +59,6 @@ class BookingRepoInMemory(
 
     override suspend fun createBooking(request: DbBookingRequest): DbBookingResponse {
         val key = randomUuid()
-        // val booking = request.booking.copy(bookingUid = OsmsBookingUid(key))
         val booking = request.booking.copy(bookingUid = OsmsBookingUid(key), lock = OsmsBookingLock(randomUuid()))
 
         save(booking)
@@ -96,32 +81,6 @@ class BookingRepoInMemory(
             } ?: resultErrorNotFound
     }
 
-//    override suspend fun updateBooking(request: DbBookingRequest): DbBookingResponse {
-//        val key = request.booking.bookingUid.takeIf { it != OsmsBookingUid.NONE }?.asString() ?: return resultErrorEmptyUid
-//        val oldLock = request.booking.lock.takeIf { it != OsmsBookingLock.NONE }?.asString() ?: return resultErrorEmptyLock
-//        val newBooking = request.booking.copy()
-//        val entity = BookingEntity(newBooking)
-
-//        return when (cache.get(key)) {
-//            null -> resultErrorNotFound
-//            else -> {
-//                cache.put(key, entity)
-//
-//                DbBookingResponse(
-//                    data = newBooking,
-//                    isSuccess = true,
-//                )
-//            }
-//        }
-//        return doUpdate(key, oldLock) {
-//            cache.put(key, entity)
-//            DbBookingResponse(
-//                data = newBooking,
-//                isSuccess = true,
-//            )
-//        }
-//    }
-
     override suspend fun updateBooking(request: DbBookingRequest): DbBookingResponse =
         doUpdate(request.booking.bookingUid, request.booking.lock) { key, _ ->
             val newBooking = request.booking.copy(lock = OsmsBookingLock(randomUuid()))
@@ -131,19 +90,6 @@ class BookingRepoInMemory(
 
             DbBookingResponse.success(newBooking)
         }
-
-//    override suspend fun deleteBooking(request: DbBookingUidRequest): DbBookingResponse {
-//        val key = request.bookingUid.takeIf { it != OsmsBookingUid.NONE }?.asString() ?: return resultErrorEmptyUid
-//        val oldLock = request.lock.takeIf { it != OsmsBookingLock.NONE }?.asString() ?: return resultErrorEmptyLock
-//
-//        return doUpdate(key, oldLock) {oldBooking ->
-//            cache.invalidate(key)
-//            DbBookingResponse(
-//                data = oldBooking.toInternal(),
-//                isSuccess = true,
-//            )
-//        }
-//    }
 
     override suspend fun deleteBooking(request: DbBookingUidRequest): DbBookingResponse =
         doUpdate(request.bookingUid, request.lock) { key, oldBooking ->
@@ -227,7 +173,7 @@ class BookingRepoInMemory(
             errors = listOf(
                 OsmsError(
                     code = "not-found",
-                    field = "id",
+                    field = "bookingUid",
                     message = "Not Found"
                 )
             )

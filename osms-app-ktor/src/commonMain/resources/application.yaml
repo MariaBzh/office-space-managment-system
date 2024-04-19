@@ -20,5 +20,5 @@ osms:
     psql:
       password: admin123
       schema: osms
-      url: "jdbc:postgresql://localhost:5432/osms"
+      url: "$PG_URL:jdbc:postgresql://localhost:5432/osms"
       user: osms-app

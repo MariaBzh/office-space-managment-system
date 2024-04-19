@@ -24,7 +24,6 @@ import ru.otus.osms.stubs.OsmsBookingStub
 class V1BookingPostgresApiTest {
     @Test
     fun create() = testApplication {
-//      val repo = BookingRepoInMemory(initObjects = listOf(initBooking), randomUuid = { UUID_NEW })
         val repo = repoUnderTestContainer(randomUuid = { UUID_NEW })
         
         application {
@@ -73,7 +72,6 @@ class V1BookingPostgresApiTest {
 
     @Test
     fun read() = testApplication {
-//      val repo = BookingRepoInMemory(initObjects = listOf(initBooking), randomUuid = { UUID_NEW })
         val repo = repoUnderTestContainer(randomUuid = { UUID_NEW })
 
         application {
@@ -121,7 +119,6 @@ class V1BookingPostgresApiTest {
             responseObj.booking?.office?.officeUid
         )
         assertEquals(initBooking.office.name, responseObj.booking?.office?.name)
-        // assertEquals(initBooking.description, responseObj.booking?.description)
         assertEquals(initBooking.startTime, responseObj.booking?.startTime)
         assertEquals(initBooking.endTime, responseObj.booking?.endTime)
         assertEquals(3, responseObj.booking?.permissions?.size)
@@ -129,7 +126,6 @@ class V1BookingPostgresApiTest {
 
     @Test
     fun update() = testApplication {
-//      val repo = BookingRepoInMemory(initObjects = listOf(initBooking), randomUuid = { UUID_NEW })
         val repo = repoUnderTestContainer(randomUuid = { UUID_NEW })
 
         application {
@@ -194,7 +190,6 @@ class V1BookingPostgresApiTest {
 
     @Test
     fun delete() = testApplication {
-//      val repo = BookingRepoInMemory(initObjects = listOf(initBooking), randomUuid = { UUID_NEW })
         val repo = repoUnderTestContainer(randomUuid = { UUID_NEW })
         
         application {
@@ -250,7 +245,6 @@ class V1BookingPostgresApiTest {
 
     @Test
     fun search() = testApplication {
-//      val repo = BookingRepoInMemory(initObjects = listOf(initBooking), randomUuid = { UUID_NEW })
         val repo = repoUnderTestContainer(randomUuid = { UUID_NEW })
         
         application {

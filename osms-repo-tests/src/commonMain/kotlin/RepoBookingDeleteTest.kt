@@ -10,11 +10,9 @@ import kotlin.test.assertEquals
 
 abstract class RepoBookingDeleteTest {
     abstract val repo: IBookingRepository
-    // protected open val deleteSucc = initObjects[0]
 
     @Test
     fun deleteSuccess() = runRepoTest {
-        // val result = repo.deleteBooking(DbBookingUidRequest(deleteSucc.bookingUid))
         val result = repo.deleteBooking(DbBookingUidRequest(successId, lock = lockOld))
 
         assertEquals(true, result.isSuccess)

@@ -23,7 +23,7 @@
 | userUid      | +              | String   | Идентификатор пользователя       |
 | branch       | +              | Branch   | Филиал                           |
 | floor        | +              | Floor    | Этаж                             |
-| Office       | -              | Office   | Комната                          |
+| Office       | +              | Office   | Комната                          |
 | workspaceUid | +              | String   | Идентификатор места бронирования |
 | description  | -              | String   | Описание                         |
 | startTime    | +              | String   | Дата и время начала брони        |

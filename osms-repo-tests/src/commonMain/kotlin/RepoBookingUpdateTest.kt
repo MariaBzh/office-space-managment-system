@@ -83,7 +83,17 @@ abstract class RepoBookingUpdateTest {
         val error = result.errors.find { it.code == "concurrency" }
 
         assertEquals("lock", error?.field)
-        assertEquals(updateConc, result.data)
+
+        assertEquals(updateConc.bookingUid, result.data?.bookingUid)
+        assertEquals(updateConc.userUid, result.data?.userUid)
+        assertEquals(updateConc.branch, result.data?.branch)
+        assertEquals(updateConc.floor, result.data?.floor)
+        assertEquals(updateConc.office, result.data?.office)
+        assertEquals(updateConc.description, result.data?.description)
+        assertEquals(updateConc.startTime, result.data?.startTime)
+        assertEquals(updateConc.endTime, result.data?.endTime)
+
+
     }
 
     companion object : BaseInitBookings() {

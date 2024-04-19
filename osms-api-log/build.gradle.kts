@@ -53,13 +53,13 @@ kotlin {
 openApiGenerate {
     val openapiGroup = "${rootProject.group}.api.logs"
 
-    generatorName.set("kotlin") // Это и есть активный генератор
+    generatorName.set("kotlin")
     packageName.set(openapiGroup)
     apiPackage.set("$openapiGroup.api")
     modelPackage.set("$openapiGroup.models")
     invokerPackage.set("$openapiGroup.invoker")
     inputSpec.set("$rootDir/spec-openapi/specs-booking-log.yaml")
-    library.set("multiplatform") // Используем библиотеку для KMP
+    library.set("multiplatform")
 
     /**
      * Здесь указываем, что нам нужны только модели, все остальное не нужно
@@ -69,10 +69,6 @@ openApiGenerate {
         put("modelDocs", "false")
     }
 
-    /**
-     * Настройка дополнительных параметров из документации по генератору
-     * https://github.com/OpenAPITools/openapi-generator/blob/master/docs/generators/kotlin.md
-     */
     configOptions.set(mapOf(
         "dateLibrary" to "string",
         "enumPropertyNaming" to "UPPERCASE",
