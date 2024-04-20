@@ -10,7 +10,10 @@ import io.ktor.server.testing.*
 import io.ktor.util.*
 import ru.otus.osms.api.v1.kpm.apiV1Mapper
 import ru.otus.osms.api.v1.kpm.models.*
+import ru.otus.osms.common.OsmsCorSettings
+import ru.otus.osms.ktor.OsmsAppSettings
 import ru.otus.osms.ktor.module
+import ru.otus.osms.repo.stubs.BookingRepoStub
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
@@ -255,7 +258,7 @@ class V1BookingStubApiTest {
     }
 
     private fun v1TestApplication(function: suspend (HttpClient) -> Unit): Unit = testApplication {
-        application { module() }
+        application { module(OsmsAppSettings(corSettings = OsmsCorSettings(repoStub = BookingRepoStub()))) }
         val client = createClient {
             install(ContentNegotiation) {
                 json(apiV1Mapper)

@@ -1,26 +1,14 @@
 version: '3'
 services:
 
-  zookeeper:
-    image: confluentinc/cp-zookeeper:7.0.9
-    container_name: zookeeper
-    healthcheck:
-      test: "[[ $$(echo srvr | nc localhost 2181 | grep -oG 'Mode: standalone') = \"Mode: standalone\" ]]"
-      interval: 10s
-      timeout: 1s
-      retries: 30
-    environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
-      ZOOKEEPER_TICK_TIME: 2000
-    ports:
-      - "2181:2181"
-
   kafka:
-    image: confluentinc/cp-kafka:7.0.9
     container_name: kafka
+    image: confluentinc/cp-kafka:7.0.9
     depends_on:
       zookeeper:
         condition: service_healthy
+      kafka-ui:
+        condition: service_started
     healthcheck:
       test: "test $$( /usr/bin/zookeeper-shell zookeeper:2181 get /brokers/ids/1 | grep { ) != ''"
       interval: 3s
@@ -42,13 +30,25 @@ services:
       - "9091:9091"
       - "9101:9101"
 
+  zookeeper:
+    container_name: zookeeper
+    image: confluentinc/cp-zookeeper:7.0.9
+    healthcheck:
+      test: "[[ $$(echo srvr | nc localhost 2181 | grep -oG 'Mode: standalone') = \"Mode: standalone\" ]]"
+      interval: 10s
+      timeout: 1s
+      retries: 30
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181"
+
   kafka-ui:
     container_name: kafka-ui
     image: provectuslabs/kafka-ui:latest
     ports:
       - "9000:8080"
-    depends_on:
-      - "kafka"
     environment:
       DYNAMIC_CONFIG_ENABLED: "true"
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: "kafka:9092"

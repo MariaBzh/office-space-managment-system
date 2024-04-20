@@ -1,6 +1,8 @@
 val ktorVersion: String by project
 val logbackVersion: String by project
 val serializationVersion: String by project
+val testContainersVersion: String by project
+val kmpUUIDVersion: String by project
 
 fun ktor(module: String, version: String? = ktorVersion): Any =
     "io.ktor:ktor-$module:$version"
@@ -77,6 +79,9 @@ kotlin {
                 implementation(project(":osms-logging-common"))
                 implementation(project(":osms-logging-kermit"))
 
+                implementation(project(":osms-in-memory"))
+                implementation(project(":osms-repo-stubs"))
+
                 implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:$serializationVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$serializationVersion")
@@ -88,6 +93,8 @@ kotlin {
                 implementation(kotlin("test"))
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
+
+                implementation(project(":osms-repo-tests"))
 
                 implementation(ktorServer("test-host"))
                 implementation(ktorClient("content-negotiation"))
@@ -106,12 +113,17 @@ kotlin {
 
                 implementation(project(":osms-api-v1-jackson"))
                 implementation(project(":osms-mappers-jackson-v1"))
+
+                implementation(project(":osms-postgresql"))
             }
         }
 
         val jvmTest by getting {
             dependencies {
                 implementation(kotlin("test-junit"))
+
+                implementation("org.testcontainers:postgresql:$testContainersVersion")
+                implementation("com.benasher44:uuid:$kmpUUIDVersion")
             }
         }
     }

@@ -7,7 +7,7 @@ import ru.otus.osms.common.models.*
 import kotlin.test.assertEquals
 
 fun validationUpdateUidIsNotValid(command: OsmsCommand, processor: OsmsBookingProcessor) = runTest {
-    val ctx = OsmsContext(
+    val context = OsmsContext(
         command = command,
         state = OsmsState.NONE,
         workMode = OsmsWorkMode.TEST,
@@ -29,16 +29,17 @@ fun validationUpdateUidIsNotValid(command: OsmsCommand, processor: OsmsBookingPr
             workspaceUid = OsmsWorkspaceUid(INVALID_UID),
             startTime = "2023-12-21T10:00:00",
             endTime = "2023-12-21T16:00:00",
+            lock = OsmsBookingLock(LOCK),
         ),
     )
-    processor.exec(ctx)
+    processor.exec(context)
 
-    assertEquals(6, ctx.errors.size)
-    assertEquals(OsmsState.FAILING, ctx.state)
+    assertEquals(6, context.errors.size)
+    assertEquals(OsmsState.FAILING, context.state)
 }
 
 fun validationCreateUidIsNotValid(command: OsmsCommand, processor: OsmsBookingProcessor) = runTest {
-    val ctx = OsmsContext(
+    val context = OsmsContext(
         command = command,
         state = OsmsState.NONE,
         workMode = OsmsWorkMode.TEST,
@@ -59,25 +60,30 @@ fun validationCreateUidIsNotValid(command: OsmsCommand, processor: OsmsBookingPr
             workspaceUid = OsmsWorkspaceUid(INVALID_UID),
             startTime = "2023-12-21T10:00:00",
             endTime = "2023-12-21T16:00:00",
+            lock = OsmsBookingLock(LOCK),
         ),
     )
-    processor.exec(ctx)
+    processor.exec(context)
 
-    assertEquals(5, ctx.errors.size)
-    assertEquals(OsmsState.FAILING, ctx.state)
+    assertEquals(5, context.errors.size)
+    assertEquals(OsmsState.FAILING, context.state)
 }
 
 fun validationReadUidIsNotValid(command: OsmsCommand, processor: OsmsBookingProcessor) = runTest {
-    val ctx = OsmsContext(
+    val context = OsmsContext(
         command = command,
         state = OsmsState.NONE,
         workMode = OsmsWorkMode.TEST,
         bookingRequest = OsmsBooking(
             bookingUid = OsmsBookingUid(INVALID_UID),
+            lock = OsmsBookingLock("123")
         ),
     )
-    processor.exec(ctx)
+    processor.exec(context)
 
-    assertEquals(1, ctx.errors.size)
-    assertEquals(OsmsState.FAILING, ctx.state)
+    assertEquals(1, context.errors.size)
+    assertEquals(OsmsState.FAILING, context.state)
+    assertEquals(context.errors.firstOrNull()?.group, "validation")
 }
+
+private const val LOCK = "123"

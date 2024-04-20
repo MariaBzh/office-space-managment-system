@@ -13,7 +13,7 @@ import kotlin.test.assertEquals
 class BookingCreateStubTest {
     @Test
     fun create() = runTest {
-        val ctx = OsmsContext(
+        val context = OsmsContext(
             command = OsmsCommand.CREATE,
             state = OsmsState.NONE,
             workMode = OsmsWorkMode.STUB,
@@ -21,32 +21,32 @@ class BookingCreateStubTest {
             bookingRequest = BOOKING,
         )
 
-        PROCESSOR.exec(ctx)
+        PROCESSOR.exec(context)
 
-        assertEquals(OsmsBookingStub.get().bookingUid, ctx.bookingResponse.bookingUid)
-        assertEquals(USER_UID, ctx.bookingResponse.userUid)
-        assertEquals(WORKPLACE_UID, ctx.bookingResponse.workspaceUid)
+        assertEquals(OsmsBookingStub.get().bookingUid, context.bookingResponse.bookingUid)
+        assertEquals(USER_UID, context.bookingResponse.userUid)
+        assertEquals(WORKPLACE_UID, context.bookingResponse.workspaceUid)
 
-        assertEquals(BRANCH.branchUid, ctx.bookingResponse.branch.branchUid)
-        assertEquals(BRANCH.name, ctx.bookingResponse.branch.name)
+        assertEquals(BRANCH.branchUid, context.bookingResponse.branch.branchUid)
+        assertEquals(BRANCH.name, context.bookingResponse.branch.name)
 
-        assertEquals(FLOOR.floorUid, ctx.bookingResponse.floor.floorUid)
-        assertEquals(FLOOR.level, ctx.bookingResponse.floor.level)
+        assertEquals(FLOOR.floorUid, context.bookingResponse.floor.floorUid)
+        assertEquals(FLOOR.level, context.bookingResponse.floor.level)
 
-        assertEquals(OFFICE.officeUid, ctx.bookingResponse.office.officeUid)
-        assertEquals(OFFICE.name, ctx.bookingResponse.office.name)
+        assertEquals(OFFICE.officeUid, context.bookingResponse.office.officeUid)
+        assertEquals(OFFICE.name, context.bookingResponse.office.name)
 
-        assertEquals(START_TIME, ctx.bookingResponse.startTime)
-        assertEquals(END_TIME, ctx.bookingResponse.endTime)
+        assertEquals(START_TIME, context.bookingResponse.startTime)
+        assertEquals(END_TIME, context.bookingResponse.endTime)
 
-        assertContains(ctx.bookingResponse.permissions, OsmsBookingPermissions.READ)
-        assertContains(ctx.bookingResponse.permissions, OsmsBookingPermissions.UPDATE)
-        assertContains(ctx.bookingResponse.permissions, OsmsBookingPermissions.DELETE)
+        assertContains(context.bookingResponse.permissions, OsmsBookingPermissions.READ)
+        assertContains(context.bookingResponse.permissions, OsmsBookingPermissions.UPDATE)
+        assertContains(context.bookingResponse.permissions, OsmsBookingPermissions.DELETE)
     }
 
     @Test
     fun badUid() = runTest {
-        val ctx = OsmsContext(
+        val context = OsmsContext(
             command = OsmsCommand.CREATE,
             state = OsmsState.NONE,
             workMode = OsmsWorkMode.STUB,
@@ -54,19 +54,19 @@ class BookingCreateStubTest {
             bookingRequest = BOOKING,
         )
 
-        PROCESSOR.exec(ctx)
+        PROCESSOR.exec(context)
 
-        assertEquals(OsmsBooking(), ctx.bookingResponse)
+        assertEquals(OsmsBooking(), context.bookingResponse)
 
-        assertEquals("bad_uid", ctx.errors.firstOrNull()?.code)
-        assertEquals("Validation", ctx.errors.firstOrNull()?.group)
-        assertEquals("'bookingUid'", ctx.errors.firstOrNull()?.field)
-        assertEquals("Incorrect UID", ctx.errors.firstOrNull()?.message)
+        assertEquals("bad_uid", context.errors.firstOrNull()?.code)
+        assertEquals("Validation", context.errors.firstOrNull()?.group)
+        assertEquals("'bookingUid'", context.errors.firstOrNull()?.field)
+        assertEquals("Incorrect UID", context.errors.firstOrNull()?.message)
     }
 
     @Test
     fun badTime() = runTest {
-        val ctx = OsmsContext(
+        val context = OsmsContext(
             command = OsmsCommand.CREATE,
             state = OsmsState.NONE,
             workMode = OsmsWorkMode.STUB,
@@ -74,19 +74,19 @@ class BookingCreateStubTest {
             bookingRequest = BOOKING,
         )
 
-        PROCESSOR.exec(ctx)
+        PROCESSOR.exec(context)
 
-        assertEquals(OsmsBooking(), ctx.bookingResponse)
+        assertEquals(OsmsBooking(), context.bookingResponse)
 
-        assertEquals("bad_time", ctx.errors.firstOrNull()?.code)
-        assertEquals("Validation", ctx.errors.firstOrNull()?.group)
-        assertEquals("'startTime' or 'endTime'", ctx.errors.firstOrNull()?.field)
-        assertEquals("Incorrect time", ctx.errors.firstOrNull()?.message)
+        assertEquals("bad_time", context.errors.firstOrNull()?.code)
+        assertEquals("Validation", context.errors.firstOrNull()?.group)
+        assertEquals("'startTime' or 'endTime'", context.errors.firstOrNull()?.field)
+        assertEquals("Incorrect time", context.errors.firstOrNull()?.message)
     }
 
     @Test
     fun databaseError() = runTest {
-        val ctx = OsmsContext(
+        val context = OsmsContext(
             command = OsmsCommand.CREATE,
             state = OsmsState.NONE,
             workMode = OsmsWorkMode.STUB,
@@ -94,18 +94,18 @@ class BookingCreateStubTest {
             bookingRequest = BOOKING,
         )
 
-        PROCESSOR.exec(ctx)
+        PROCESSOR.exec(context)
 
-        assertEquals(OsmsBooking(), ctx.bookingResponse)
+        assertEquals(OsmsBooking(), context.bookingResponse)
 
-        assertEquals("internal-db", ctx.errors.firstOrNull()?.code)
-        assertEquals("internal", ctx.errors.firstOrNull()?.group)
-        assertEquals("Internal error", ctx.errors.firstOrNull()?.message)
+        assertEquals("internal-db", context.errors.firstOrNull()?.code)
+        assertEquals("internal", context.errors.firstOrNull()?.group)
+        assertEquals("Internal error", context.errors.firstOrNull()?.message)
     }
 
     @Test
     fun badNoCase() = runTest {
-        val ctx = OsmsContext(
+        val context = OsmsContext(
             command = OsmsCommand.CREATE,
             state = OsmsState.NONE,
             workMode = OsmsWorkMode.STUB,
@@ -113,13 +113,13 @@ class BookingCreateStubTest {
             bookingRequest = BOOKING,
         )
 
-        PROCESSOR.exec(ctx)
+        PROCESSOR.exec(context)
 
-        assertEquals(OsmsBooking(), ctx.bookingResponse)
+        assertEquals(OsmsBooking(), context.bookingResponse)
 
-        assertEquals("validation", ctx.errors.firstOrNull()?.code)
-        assertEquals("validation", ctx.errors.firstOrNull()?.group)
-        assertEquals("Wrong stub case is requested: ${OsmsState.NONE.name}", ctx.errors.firstOrNull()?.message)
+        assertEquals("validation", context.errors.firstOrNull()?.code)
+        assertEquals("validation", context.errors.firstOrNull()?.group)
+        assertEquals("Wrong stub case is requested: ${OsmsState.NONE.name}", context.errors.firstOrNull()?.message)
     }
 
     companion object {
@@ -138,8 +138,8 @@ class BookingCreateStubTest {
             officeUid = OsmsOfficeUid("office-1"),
             name = "Московский"
         )
-        private const val START_TIME = "2024-01-01 10:00:00.0000"
-        private const val END_TIME = "2024-01-01 11:00:00.0000"
+        private const val START_TIME = "2024-01-01T10:00:00.0000"
+        private const val END_TIME = "2024-01-01T11:00:00.0000"
         private val PERMISSIONS = mutableSetOf(
             OsmsBookingPermissions.READ,
             OsmsBookingPermissions.UPDATE,

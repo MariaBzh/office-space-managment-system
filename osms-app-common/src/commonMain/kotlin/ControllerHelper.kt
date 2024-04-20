@@ -14,27 +14,27 @@ suspend inline fun <T> IOsmsAppSettings.controllerHelper(
     logUid: String,
 ): T {
     val logger = corSettings.loggerProvider.logger(clazz)
-    val ctx = OsmsContext(
+    val context = OsmsContext(
         timeStart = Clock.System.now(),
     )
 
     return try {
         logger.doWithLogging(logUid) {
-            ctx.getRequest()
-            processor.exec(ctx)
+            context.getRequest()
+            processor.exec(context)
             logger.info(
                 message = "Request $logUid processed for ${clazz.simpleName}",
                 marker = "BIZ",
-                data = ctx.toLog(logUid)
+                data = context.toLog(logUid)
             )
-            ctx.toResponse()
+            context.toResponse()
         }
     } catch (e: Throwable) {
         logger.doWithLogging("$logUid-failure") {
-            ctx.state = OsmsState.FAILING
-            ctx.errors.add(e.asOsmsError())
-            processor.exec(ctx)
-            ctx.toResponse()
+            context.state = OsmsState.FAILING
+            context.errors.add(e.asOsmsError())
+            processor.exec(context)
+            context.toResponse()
         }
     }
 }

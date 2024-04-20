@@ -12,3 +12,14 @@ ktor:
 #    - "http://127.0.0.1:8080/api/v1"
 #    - "http://0.0.0.0:8080/api/v1"
 #    - "http://192.168.0.182:8080/api/v1"
+
+osms:
+  repository:
+    test: "$DB_TYPE_TEST:psql"
+    prod: "$DB_TYPE_PROD:inmemory"
+    psql:
+      password: admin123
+      schema: osms
+      url: "$PG_URL:jdbc:postgresql://localhost:5432/osms"
+      user: osms-app
+

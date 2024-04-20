@@ -73,8 +73,7 @@ class AppKafkaConsumer(
                     }
                 }
             }
-        } catch (ex: WakeupException) {
-            // ignore
+        } catch (ignore: WakeupException) {
         } catch (ex: RuntimeException) {
             withContext(NonCancellable) {
                 throw ex
